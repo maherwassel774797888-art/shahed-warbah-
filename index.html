@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>شاهد واربح</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      color: #172554;
+    }
+    header {
+      background: #102b62;
+      color: white;
+      text-align: center;
+      padding: 28px 15px;
+    }
+    header h1 { margin: 0 0 10px; }
+    main {
+      width: 92%;
+      max-width: 520px;
+      margin: 22px auto;
+    }
+    .card {
+      background: white;
+      padding: 22px;
+      margin-bottom: 16px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 4px 15px #0000000d;
+    }
+    .points {
+      font-size: 32px;
+      font-weight: bold;
+      color: #1763d1;
+      margin: 12px;
+    }
+    button {
+      background: #f5c542;
+      color: #172554;
+      border: 0;
+      border-radius: 10px;
+      padding: 13px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .note { color: #64748b; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>▶ شاهد واربح</h1>
+    <p>شاهد الفيديوهات واستمتع بالتجربة</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>رصيد نقاطك</h2>
+      <div class="points"><span id="points">0</span> نقطة</div>
+      <p class="note">النقاط تجريبية وليست أموالًا حقيقية.</p>
+    </section>
+
+    <section class="card">
+      <h2>🎬 منطقة المشاهدة</h2>
+      <p>أهلًا بك في النسخة التجريبية من منصتنا.</p>
+      <button onclick="watchDemo()">تجربة المشاهدة +5 نقاط</button>
+      <p id="message" class="note"></p>
+    </section>
+
+    <section class="card">
+      <h2>💳 المحفظة</h2>
+      <p>رصيدك التجريبي: <strong id="wallet">0</strong> نقطة</p>
+      <p class="note">السحب المالي غير مفعّل في هذه النسخة.</p>
+    </section>
+  </main>
+
+  <script>
+    let points = 0;
+
+    function watchDemo() {
+      points += 5;
+      document.getElementById("points").textContent = points;
+      document.getElementById("wallet").textContent = points;
+      document.getElementById("message").textContent =
+        "تمت إضافة 5 نقاط تجريبية بنجاح!";
+    }
+  </script>
+</body>
+</html>
