@@ -1,303 +1,673 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#10264f">
-<title>شاهد واربح</title>
-<style>
-:root{--navy:#10264f;--blue:#24559a;--gold:#efc75e;--bg:#f3f6fc;--text:#192b49;--muted:#687790;--border:#e0e7f1}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,Arial,sans-serif;line-height:1.7}
-header{background:linear-gradient(135deg,#0a1733,#204e91);color:#fff;border-bottom:4px solid var(--gold);padding:18px 15px}
-.top,main,footer{width:min(920px,100%);margin:auto}
-.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.logo{font-size:23px;font-weight:900}.logo span{color:var(--gold)}.tag{font-size:12px;color:#dce7fa}
-main{padding:20px 14px}
-.hero{padding:25px 20px;margin-bottom:17px;border-radius:22px;color:white;background:linear-gradient(130deg,#204e91,#0a1733)}
-.hero h1{margin:0 0 8px;font-size:25px}.hero p{margin:0;color:#e1eaff}
-.card{background:white;border:1px solid var(--border);border-radius:18px;padding:19px;margin-bottom:16px;box-shadow:0 5px 22px #10264f08;min-width:0}
-h2{font-size:19px;margin:0 0 12px}h3{font-size:16px;margin:8px 0}
-.small{font-size:13px;color:var(--muted)}.hidden{display:none!important}
-label{display:block;font-size:14px;font-weight:650}
-input{display:block;width:100%;padding:13px;margin:8px 0 12px;border:1px solid #ccd6e5;border-radius:11px;background:white;color:var(--text);font:inherit}
-input:focus{outline:2px solid #9bbce9;border-color:var(--blue)}
-button,.watch{display:inline-block;border:0;border-radius:11px;padding:11px 15px;margin:4px 2px;background:var(--gold);color:#18294b;font:inherit;font-weight:750;cursor:pointer;text-decoration:none}
-button:disabled{opacity:.6;cursor:wait}
-button.primary{background:var(--blue);color:white}button.secondary{background:#eaf0f9;color:var(--navy)}button.full{width:100%;margin:6px 0}
-.actions{display:flex;flex-wrap:wrap;gap:6px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:14px}
-.balance{background:#fff9e8;border-color:#f0dda3}
-.points{font-size:30px;font-weight:850;color:var(--blue);overflow-wrap:anywhere}
-.status{padding:10px 12px;margin:12px 0 0;border-radius:10px;background:#f0f4fa;overflow-wrap:anywhere;font-size:13px}
-.video-art{height:120px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,#10264f,#3166a8);color:var(--gold);font-size:40px}
-.watch{background:#eaf0f9;color:var(--navy)}
-footer{padding:22px 15px;text-align:center;color:var(--muted);font-size:12px}
-@media(max-width:480px){.logo{font-size:20px}.tag{max-width:115px;text-align:left}.hero h1{font-size:22px}.card{padding:15px}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#081326">
+  <title>شاهد واربح | منصتك الترفيهية</title>
+  <meta name="description" content="شاهد واربح — منصة ترفيهية عربية بتصميم فاخر.">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --navy: #081326;
+      --panel: #101f37;
+      --panel2: #142743;
+      --gold: #e9bd63;
+      --gold2: #ffdf91;
+      --white: #f6f7fb;
+      --muted: #a9b5c8;
+      --border: rgba(233,189,99,.22);
+      --danger: #ff8f8f;
+      --success: #7ce0b0;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--white);
+      background:
+        radial-gradient(ellipse at 85% 10%, rgba(35,77,123,.32), transparent 40%),
+        radial-gradient(ellipse at 5% 85%, rgba(233,189,99,.08), transparent 35%),
+        var(--navy);
+      font-family: Tahoma, Arial, sans-serif;
+    }
+
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .page { width: min(1120px, 100%); margin: auto; padding: 22px; }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 0 28px;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .logo {
+      width: 48px; height: 48px; border-radius: 15px;
+      display: grid; place-items: center;
+      color: var(--navy); font-size: 24px; font-weight: bold;
+      background: linear-gradient(145deg, var(--gold2), #b78332);
+      box-shadow: 0 6px 28px #e9bd6329;
+    }
+    .brand-name { font-size: 21px; font-weight: 800; }
+    .brand-name span { color: var(--gold); }
+    .brand-sub { color: var(--muted); font-size: 11px; margin-top: 5px; }
+
+    .secure {
+      color: var(--gold2); border: 1px solid var(--border);
+      padding: 9px 12px; border-radius: 30px; font-size: 12px;
+    }
+
+    .hero {
+      display: grid; grid-template-columns: 1.05fr .95fr;
+      gap: 34px; align-items: center; padding: 28px 0 42px;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--gold2); border: 1px solid var(--border);
+      background: #e9bd630b; border-radius: 30px;
+      padding: 9px 13px; font-size: 12px;
+    }
+    h1 {
+      font-size: clamp(34px, 5vw, 57px);
+      line-height: 1.35; margin: 20px 0 15px; letter-spacing: -.8px;
+    }
+    h1 span {
+      color: var(--gold);
+      background: linear-gradient(90deg, #fff0bc, #d7a344);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .intro { color: var(--muted); line-height: 2; font-size: 15px; max-width: 500px; }
+    .features { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .feature {
+      background: #ffffff07; border: 1px solid #ffffff13;
+      border-radius: 12px; padding: 11px 13px; color: #dce4f1; font-size: 12px;
+    }
+
+    .visual {
+      min-height: 300px; border: 1px solid var(--border);
+      border-radius: 28px; padding: 28px; position: relative; overflow: hidden;
+      background: linear-gradient(145deg, #172c49, #0c192d 75%);
+      box-shadow: 0 28px 80px #0004;
+    }
+    .visual:before {
+      content: ""; position: absolute; width: 240px; height: 240px;
+      border-radius: 50%; background: #dba84614;
+      top: -80px; left: -65px; filter: blur(2px);
+    }
+    .play-orb {
+      position: relative; margin: 15px auto 25px; width: 118px; height: 118px;
+      border-radius: 50%; display: grid; place-items: center;
+      border: 1px solid #ffdf9170;
+      background: radial-gradient(circle, #e9bd6330, #e9bd6305 70%);
+      box-shadow: 0 0 60px #e9bd6318, inset 0 0 28px #e9bd6314;
+      color: var(--gold2); font-size: 42px;
+    }
+    .visual h2 { text-align: center; font-size: 23px; margin: 0 0 10px; }
+    .visual p { text-align: center; color: var(--muted); line-height: 1.9; font-size: 13px; }
+    .visual-tag {
+      text-align: center; color: var(--gold2); font-size: 11px;
+      margin-top: 24px; letter-spacing: 1px;
+    }
+
+    .auth-section {
+      display: grid; grid-template-columns: .75fr 1.25fr; gap: 22px;
+      align-items: stretch; margin: 10px 0 30px;
+    }
+    .info-card, .auth-card, .dashboard-card {
+      border: 1px solid var(--border); border-radius: 22px;
+      background: linear-gradient(145deg, #12233d, #0c192b);
+      padding: 25px;
+    }
+    .info-card h3 { margin-top: 0; font-size: 20px; }
+    .info-card p { color: var(--muted); line-height: 2; font-size: 13px; }
+    .info-line { display: flex; gap: 12px; margin-top: 18px; align-items: flex-start; }
+    .info-icon {
+      flex: 0 0 35px; height: 35px; border-radius: 10px;
+      display: grid; place-items: center; background: #e9bd6315; color: var(--gold);
+    }
+    .info-line strong { font-size: 13px; }
+    .info-line small { display: block; color: var(--muted); margin-top: 6px; line-height: 1.8; }
+
+    .auth-card h2 { font-size: 23px; margin: 0 0 8px; }
+    .subtext { color: var(--muted); font-size: 13px; line-height: 1.8; margin: 0 0 20px; }
+
+    .tabs { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; margin-bottom: 22px; }
+    .tab {
+      border: 1px solid #ffffff14; border-radius: 10px;
+      background: #ffffff06; color: var(--muted); padding: 12px 5px; font-size: 12px;
+    }
+    .tab.active { color: var(--gold2); background: #e9bd6312; border-color: var(--border); }
+
+    .field { margin: 14px 0; }
+    .field label { display: block; color: #dce4f1; font-size: 12px; margin-bottom: 8px; }
+    .field input {
+      width: 100%; min-height: 48px; border-radius: 11px;
+      border: 1px solid #ffffff1b; background: #071326a8;
+      color: white; padding: 12px 14px; outline: none;
+    }
+    .field input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px #e9bd6310; }
+    .field input::placeholder { color: #75849b; }
+    .hint { color: var(--muted); font-size: 11px; line-height: 1.8; margin-top: 7px; }
+
+    .primary, .secondary, .danger-button {
+      width: 100%; min-height: 48px; border-radius: 11px; padding: 12px 16px;
+      font-weight: bold; border: 0; margin-top: 8px;
+    }
+    .primary {
+      color: #201707; background: linear-gradient(110deg, var(--gold2), #d5a243);
+      box-shadow: 0 8px 24px #e9bd631c;
+    }
+    .primary:disabled { opacity: .55; cursor: wait; }
+    .secondary { color: var(--gold2); background: #e9bd6310; border: 1px solid var(--border); }
+    .danger-button { color: #ffd4d4; background: #ff8f8f12; border: 1px solid #ff8f8f35; }
+    .text-button { border: 0; background: none; color: var(--gold2); padding: 12px 0; font-size: 12px; }
+    .hidden { display: none !important; }
+
+    .message {
+      display: none; margin: 14px 0; padding: 12px; border-radius: 10px;
+      font-size: 12px; line-height: 1.9; overflow-wrap: anywhere;
+    }
+    .message.show { display: block; }
+    .message.error { color: #ffd4d4; background: #ff777715; border: 1px solid #ff777735; }
+    .message.success { color: #c7ffe3; background: #7ce0b010; border: 1px solid #7ce0b033; }
+    .message.info { color: #ffedc1; background: #e9bd6310; border: 1px solid var(--border); }
+
+    .dashboard { margin: 24px 0 40px; }
+    .dashboard-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+    .dashboard h2 { margin: 0 0 8px; }
+    .wallet {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      padding: 20px; border-radius: 16px; margin: 20px 0;
+      background: linear-gradient(110deg, #e9bd6315, #ffffff04);
+      border: 1px solid var(--border);
+    }
+    .wallet-label { color: var(--muted); font-size: 12px; }
+    .wallet-value { color: var(--gold2); font-size: 27px; font-weight: bold; margin-top: 8px; }
+    .video-links { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-top: 20px; }
+    .video-link {
+      display: block; text-decoration: none; color: white; padding: 18px;
+      border-radius: 14px; border: 1px solid #ffffff16; background: #ffffff06;
+    }
+    .video-link strong { display: block; margin-bottom: 8px; }
+    .video-link span { color: var(--muted); font-size: 12px; line-height: 1.8; }
+    .warning-note { color: var(--muted); font-size: 12px; line-height: 2; margin-top: 18px; }
+    footer { text-align: center; border-top: 1px solid #ffffff12; padding: 24px 0; color: #8190a7; font-size: 11px; line-height: 2; }
+
+    @media (max-width: 760px) {
+      .page { padding: 15px; }
+      header { padding-bottom: 15px; }
+      .hero, .auth-section { grid-template-columns: 1fr; gap: 18px; }
+      .hero { padding-top: 20px; }
+      .visual { min-height: 260px; }
+      .info-card { order: 2; }
+      .auth-card { order: 1; }
+      .video-links { grid-template-columns: 1fr; }
+      .secure { font-size: 10px; }
+    }
+  </style>
 </head>
+
 <body>
-<header><div class="top"><div class="logo">▶ شاهد <span>واربح</span></div><div class="tag">منصتك الرقمية للفيديوهات</div></div></header>
+<div class="page">
+  <header>
+    <div class="brand">
+      <div class="logo">▶</div>
+      <div>
+        <div class="brand-name">شاهد <span>واربح</span></div>
+        <div class="brand-sub">الترفيه يبدأ من هنا</div>
+      </div>
+    </div>
+    <div class="secure">✦ تجربة رقمية عربية</div>
+  </header>
 
-<main>
-<section class="hero">
-<h1>مرحبًا بك في شاهد واربح</h1>
-<p>استكشف الفيديوهات وأدر حسابك ونقاطك من مكان واحد. المكافآت والسحب غير متاحين حتى تجهيز نظام تمويل ودفع موثوق.</p>
-</section>
+  <section class="hero" id="welcome">
+    <div>
+      <div class="eyebrow">✦ عالم من المحتوى في مكان واحد</div>
+      <h1>شاهد ما تحب،<br><span>وعش التجربة.</span></h1>
+      <p class="intro">
+        مرحبًا بك في شاهد واربح، منصتك الترفيهية بتصميم أنيق وتجربة سهلة على هاتفك.
+        أنشئ حسابك وابدأ استكشاف المحتوى.
+      </p>
+      <div class="features">
+        <div class="feature">◈ واجهة عربية</div>
+        <div class="feature">◈ حساب شخصي</div>
+        <div class="feature">◈ محفظة نقاط</div>
+      </div>
+    </div>
 
-<section class="card" id="authCard">
-<h2>🔐 حسابك</h2>
-<p class="small">سجّل الدخول أو أنشئ حسابًا جديدًا.</p>
-<form id="authForm">
-<label for="email">البريد الإلكتروني</label>
-<input id="email" type="email" autocomplete="email" placeholder="example@email.com" required>
-<label for="password">كلمة المرور</label>
-<input id="password" type="password" autocomplete="current-password" minlength="8" placeholder="8 أحرف على الأقل" required>
-<div class="actions">
-<button class="primary" id="loginBtn" type="submit">تسجيل الدخول</button>
-<button id="signupBtn" type="button">إنشاء حساب</button>
+    <div class="visual">
+      <div class="play-orb">▶</div>
+      <h2>كل ما تحب، أقرب إليك</h2>
+      <p>مساحة ترفيهية تجمعك بالمحتوى<br>وتمنحك تجربة استخدام مريحة.</p>
+      <div class="visual-tag">SHAHED WARBAH · YOUR ENTERTAINMENT SPACE</div>
+    </div>
+  </section>
+
+  <section class="auth-section" id="authSection">
+    <aside class="info-card">
+      <h3>مرحبًا بك في عالمك</h3>
+      <p>سجّل الدخول للانتقال إلى حسابك. إذا كانت هذه زيارتك الأولى، يمكنك إنشاء حساب جديد.</p>
+      <div class="info-line">
+        <div class="info-icon">✓</div>
+        <div><strong>حسابك الشخصي</strong><small>سجّل ببريدك الإلكتروني أو برقم هاتفك عند تفعيل خدمة الرسائل.</small></div>
+      </div>
+      <div class="info-line">
+        <div class="info-icon">◈</div>
+        <div><strong>متابعة رصيدك</strong><small>يُعرض رصيد النقاط الموجود في قاعدة البيانات المرتبطة بحسابك.</small></div>
+      </div>
+      <div class="info-line">
+        <div class="info-icon">⌑</div>
+        <div><strong>وضوح في المكافآت</strong><small>لا تُمنح نقاط مالية ولا تُنفّذ عمليات سحب في هذه النسخة.</small></div>
+      </div>
+    </aside>
+
+    <div class="auth-card">
+      <h2 id="authTitle">تسجيل الدخول</h2>
+      <p class="subtext" id="authSubtitle">أدخل بياناتك للمتابعة إلى حسابك.</p>
+
+      <div class="tabs">
+        <button class="tab active" data-mode="login" type="button">دخول</button>
+        <button class="tab" data-mode="signup" type="button">حساب جديد</button>
+        <button class="tab" data-mode="phone" type="button">الهاتف</button>
+      </div>
+
+      <div id="emailFields">
+        <div class="field">
+          <label for="email">البريد الإلكتروني</label>
+          <input id="email" type="email" autocomplete="email" placeholder="name@example.com">
+        </div>
+        <div class="field" id="passwordField">
+          <label for="password">كلمة المرور</label>
+          <input id="password" type="password" autocomplete="current-password" placeholder="أدخل كلمة المرور">
+        </div>
+      </div>
+
+      <div id="phoneFields" class="hidden">
+        <div class="field">
+          <label for="phone">رقم الهاتف بالرمز الدولي</label>
+          <input id="phone" type="tel" autocomplete="tel" placeholder="+9677XXXXXXXX" dir="ltr">
+          <div class="hint">اكتب الرقم بالصيغة الدولية، مثل +967 ثم رقم الهاتف.</div>
+        </div>
+        <div id="otpField" class="hidden">
+          <div class="field">
+            <label for="otp">رمز التحقق المرسل برسالة SMS</label>
+            <input id="otp" inputmode="numeric" autocomplete="one-time-code" placeholder="أدخل رمز التحقق">
+          </div>
+        </div>
+      </div>
+
+      <div id="resetFields" class="hidden">
+        <div class="field">
+          <label for="newPassword">كلمة المرور الجديدة</label>
+          <input id="newPassword" type="password" autocomplete="new-password" placeholder="اكتب كلمة مرور جديدة">
+        </div>
+      </div>
+
+      <div id="message" class="message" role="status" aria-live="polite"></div>
+      <button class="primary" id="mainButton" type="button">دخول إلى حسابي</button>
+      <button class="text-button" id="forgotButton" type="button">نسيت كلمة المرور؟</button>
+      <button class="secondary hidden" id="backButton" type="button">العودة لتسجيل الدخول</button>
+    </div>
+  </section>
+
+  <section id="dashboard" class="dashboard hidden">
+    <div class="dashboard-card">
+      <div class="dashboard-top">
+        <div>
+          <h2>أهلًا بك في حسابك</h2>
+          <div class="subtext" id="userEmail"></div>
+        </div>
+        <button class="secondary" id="refreshWallet" type="button" style="width:auto">تحديث المحفظة</button>
+      </div>
+
+      <div class="wallet">
+        <div>
+          <div class="wallet-label">رصيد النقاط المسجل</div>
+          <div class="wallet-value" id="walletPoints">—</div>
+        </div>
+        <div style="font-size:30px;color:var(--gold)">◈</div>
+      </div>
+
+      <div class="message info show">
+        تنبيه: النقاط المعروضة ليست أموالًا قابلة للسحب تلقائيًا. نظام المكافآت والسحب غير مفعّل، ولن تُضاف نقاط مقابل مشاهدة الفيديوهات في هذه النسخة.
+      </div>
+
+      <h3>استكشف المحتوى</h3>
+      <div class="video-links">
+        <a class="video-link" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">
+          <strong>▶ استكشف YouTube</strong>
+          <span>افتح منصة الفيديوهات في صفحة جديدة.</span>
+        </a>
+        <a class="video-link" href="https://www.youtube.com/feed/trending" target="_blank" rel="noopener noreferrer">
+          <strong>✦ الفيديوهات الرائجة</strong>
+          <span>انتقل إلى صفحة المحتوى الرائج على YouTube.</span>
+        </a>
+      </div>
+      <p class="warning-note">فتح فيديو خارجي لا يُحتسب مشاهدة مؤهلة ولا يمنح نقاطًا. روابط المحتوى الخارجية تخضع لشروط منصاتها.</p>
+      <button class="danger-button" id="logoutButton" type="button">تسجيل الخروج</button>
+    </div>
+  </section>
+
+  <footer>
+    شاهد واربح © <span id="year"></span><br>
+    الأمان والشفافية أولويتنا. لا توجد وعود بأرباح مضمونة.
+  </footer>
 </div>
-</form>
-<button class="secondary" id="forgotBtn" type="button">نسيت كلمة المرور؟</button>
-<button class="secondary hidden" id="logoutBtn" type="button">تسجيل الخروج</button>
-<p class="status" id="message" role="status" aria-live="polite">سجّل الدخول لعرض محفظتك.</p>
-</section>
 
-<section class="card hidden" id="resetPasswordSection">
-<h2>🔑 تعيين كلمة مرور جديدة</h2>
-<p class="small">أدخل كلمة مرور جديدة لا تقل عن 8 أحرف.</p>
-<form id="resetForm">
-<label for="newPassword">كلمة المرور الجديدة</label>
-<input id="newPassword" type="password" autocomplete="new-password" minlength="8" required>
-<label for="confirmPassword">تأكيد كلمة المرور</label>
-<input id="confirmPassword" type="password" autocomplete="new-password" minlength="8" required>
-<button class="primary full" id="updatePasswordBtn" type="submit">حفظ كلمة المرور الجديدة</button>
-</form>
-<p class="status" id="resetMessage" role="status" aria-live="polite"></p>
-</section>
-
-<section class="grid">
-<div class="card balance"><h2>⭐ رصيد النقاط</h2><div class="points"><span id="points">—</span></div><p class="small">الرصيد المحفوظ لحسابك في قاعدة البيانات.</p></div>
-<div class="card"><h2>💰 المحفظة</h2><div class="points"><span id="wallet">—</span></div><p class="small">النقاط ليست أموالًا، والسحب غير مفعّل حاليًا.</p></div>
-</section>
-
-<section class="card">
-<h2>🎬 اكتشف الفيديوهات</h2>
-<p class="small">مشاهدة الفيديوهات لا تمنح نقاطًا تلقائيًا.</p>
-<div class="grid">
-<article><div class="video-art">▶</div><h3>فيديوهات متنوعة</h3><a class="watch" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">استكشاف الفيديوهات</a></article>
-<article><div class="video-art">★</div><h3>الترفيه والثقافة</h3><a class="watch" href="https://www.youtube.com/results?search_query=فيديوهات+ثقافية" target="_blank" rel="noopener noreferrer">اكتشف المحتوى</a></article>
-</div>
-</section>
-</main>
-
-<footer>شاهد واربح © 2026<br>منصة قيد التطوير. لا توجد أرباح مضمونة أو سحوبات مالية مفعّلة.</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (() => {
-"use strict";
+  "use strict";
 
-const SUPABASE_URL = "https://ljfayiuffiskxuxhspem.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_BPxQBCmB8aQvXRytv9rhFA_a3sUerrG";
-const $ = id => document.getElementById(id);
+  const SUPABASE_URL = "https://ljfayiuffiskxuxhspem.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_BPxQBCmB8aQvXRytv9rhFA_a3sUerrG";
 
-let db = null;
-let currentUser = null;
-let recoveryReady = false;
-let recoveryEventSeen = false;
+  const $ = id => document.getElementById(id);
+  const messageBox = $("message");
 
-function showMessage(text){$("message").textContent=text}
-function showResetMessage(text){$("resetMessage").textContent=text}
+  let db = null;
+  let mode = "login";
+  let resetMode = false;
+  let otpSent = false;
+  let busy = false;
 
-function setLoggedIn(user){
-  currentUser=user||null;
-  const loggedIn=Boolean(user);
-  $("email").disabled=loggedIn;
-  $("password").disabled=loggedIn;
-  $("signupBtn").classList.toggle("hidden",loggedIn);
-  $("loginBtn").classList.toggle("hidden",loggedIn);
-  $("logoutBtn").classList.toggle("hidden",!loggedIn);
-}
+  $("year").textContent = new Date().getFullYear();
 
-function showRecoveryForm(){
-  $("resetPasswordSection").classList.remove("hidden");
-  $("resetPasswordSection").scrollIntoView({behavior:"smooth",block:"start"});
-}
-
-function isRecoveryUrl(){
-  return /(?:^|[&#?])type=recovery(?:&|$)/i.test(location.hash+"&"+location.search);
-}
-
-async function loadWallet(user){
-  $("points").textContent="—";
-  $("wallet").textContent="—";
-  const {data,error}=await db.from("wallets").select("points").eq("user_id",user.id).maybeSingle();
-  if(error){
-    console.error("Wallet read error:",error);
-    showMessage("خطأ المحفظة: "+error.message);
-    return;
+  function showMessage(text, type = "info") {
+    messageBox.textContent = text;
+    messageBox.className = "message show " + type;
   }
-  if(!data){
-    showMessage("تم تسجيل الدخول، لكن لا توجد محفظة لهذا الحساب.");
-    return;
+
+  function clearMessage() {
+    messageBox.textContent = "";
+    messageBox.className = "message";
   }
-  $("points").textContent=data.points??0;
-  $("wallet").textContent=data.points??0;
-  showMessage("تم تسجيل الدخول وتحميل رصيد المحفظة.");
-}
 
-async function signup(){
-  if(!db){showMessage("تعذر الاتصال بـ Supabase. تحقق من المفتاح العام.");return}
-  const email=$("email").value.trim();
-  const password=$("password").value;
-  if(!email||password.length<8){showMessage("أدخل بريدًا صحيحًا وكلمة مرور من 8 أحرف على الأقل.");return}
-  $("signupBtn").disabled=true;
-  showMessage("جارٍ إنشاء الحساب...");
-  try{
-    const {data,error}=await db.auth.signUp({email,password});
-    if(error)throw error;
-    if(data.session&&data.user){
-      setLoggedIn(data.user);
-      await loadWallet(data.user);
-    }else{
-      showMessage("تم إرسال طلب التسجيل. افحص بريدك لتأكيد الحساب ثم سجّل الدخول.");
-    }
-  }catch(error){showMessage("تعذر إنشاء الحساب: "+error.message)}
-  finally{$("signupBtn").disabled=false}
-}
+  function setBusy(value) {
+    busy = value;
+    $("mainButton").disabled = value;
+    $("mainButton").textContent = value ? "يرجى الانتظار..." : buttonLabel();
+  }
 
-async function login(event){
-  event.preventDefault();
-  if(!db){showMessage("تعذر الاتصال بـ Supabase. تحقق من المفتاح العام.");return}
-  const email=$("email").value.trim();
-  const password=$("password").value;
-  $("loginBtn").disabled=true;
-  showMessage("جارٍ تسجيل الدخول...");
-  try{
-    const {data,error}=await db.auth.signInWithPassword({email,password});
-    if(error)throw error;
-    setLoggedIn(data.user);
-    await loadWallet(data.user);
-  }catch(error){showMessage("تعذر تسجيل الدخول: "+error.message)}
-  finally{$("loginBtn").disabled=false}
-}
+  function buttonLabel() {
+    if (resetMode) return "حفظ كلمة المرور الجديدة";
+    if (mode === "signup") return "إنشاء حساب";
+    if (mode === "phone") return otpSent ? "تأكيد رمز التحقق" : "إرسال رمز التحقق";
+    return "دخول إلى حسابي";
+  }
 
-async function logout(){
-  if(!db)return;
-  const {error}=await db.auth.signOut();
-  if(error){showMessage("تعذر تسجيل الخروج: "+error.message);return}
-  setLoggedIn(null);
-  $("points").textContent="—";
-  $("wallet").textContent="—";
-  showMessage("تم تسجيل الخروج.");
-}
+  function updateView() {
+    $("authTitle").textContent = resetMode ? "استعادة كلمة المرور" :
+      mode === "signup" ? "إنشاء حساب جديد" :
+      mode === "phone" ? "الدخول برقم الهاتف" : "تسجيل الدخول";
 
-async function requestPasswordReset(){
-  if(!db){showMessage("تعذر الاتصال بقاعدة البيانات.");return}
-  const email=$("email").value.trim();
-  if(!email){showMessage("اكتب بريدك الإلكتروني أولًا.");$("email").focus();return}
-  $("forgotBtn").disabled=true;
-  showMessage("جارٍ إرسال رابط الاستعادة...");
-  try{
-    const {error}=await db.auth.resetPasswordForEmail(email,{
-      redirectTo:location.origin+location.pathname
+    $("authSubtitle").textContent = resetMode ?
+      "أدخل كلمة مرور جديدة بعد فتح رابط الاستعادة المرسل إلى بريدك." :
+      mode === "signup" ? "أدخل بريدك الإلكتروني وكلمة مرور لإنشاء حساب." :
+      mode === "phone" ? "أرسل رمز تحقق إلى هاتفك ثم أدخل الرمز." :
+      "أدخل بياناتك للمتابعة إلى حسابك.";
+
+    $("emailFields").classList.toggle("hidden", mode === "phone" && !resetMode);
+    $("passwordField").classList.toggle("hidden", mode === "phone" || resetMode);
+    $("phoneFields").classList.toggle("hidden", mode !== "phone" || resetMode);
+    $("otpField").classList.toggle("hidden", !otpSent || mode !== "phone");
+    $("resetFields").classList.toggle("hidden", !resetMode);
+    $("forgotButton").classList.toggle("hidden", mode !== "login" || resetMode);
+    $("backButton").classList.toggle("hidden", !resetMode);
+    document.querySelectorAll(".tab").forEach(tab => {
+      tab.classList.toggle("active", tab.dataset.mode === mode && !resetMode);
     });
-    if(error)throw error;
-    showMessage("افحص بريدك الإلكتروني وصندوق الرسائل غير المرغوب فيها.");
-  }catch(error){showMessage("تعذر إرسال رابط الاستعادة: "+error.message)}
-  finally{$("forgotBtn").disabled=false}
-}
-
-async function updatePassword(event){
-  event.preventDefault();
-  if(!db){showResetMessage("تعذر الاتصال بقاعدة البيانات.");return}
-  if(!recoveryReady){
-    showResetMessage("جلسة الاستعادة غير جاهزة. افتح أحدث رابط وصل إلى بريدك الإلكتروني.");
-    return;
+    $("mainButton").textContent = buttonLabel();
   }
-  const password=$("newPassword").value;
-  const confirmation=$("confirmPassword").value;
-  if(password.length<8){showResetMessage("كلمة المرور يجب أن تكون 8 أحرف على الأقل.");return}
-  if(password!==confirmation){showResetMessage("كلمتا المرور غير متطابقتين.");return}
-  $("updatePasswordBtn").disabled=true;
-  showResetMessage("جارٍ تحديث كلمة المرور...");
-  try{
-    const {data,error}=await db.auth.updateUser({password});
-    if(error)throw error;
-    $("newPassword").value="";
-    $("confirmPassword").value="";
-    showResetMessage("تم تحديث كلمة المرور بنجاح. يمكنك تسجيل الدخول بها.");
-    history.replaceState(null,document.title,location.pathname);
-    recoveryReady=false;
-    recoveryEventSeen=false;
-    if(data.user){
-      setLoggedIn(data.user);
-      showMessage("تم تحديث كلمة المرور بنجاح.");
+
+  function friendlyError(error) {
+    const msg = String(error?.message || "حدث خطأ غير معروف.");
+    if (/Invalid login credentials/i.test(msg)) return "بيانات الدخول غير صحيحة. تحقق من البريد وكلمة المرور.";
+    if (/Email not confirmed/i.test(msg)) return "تحقق من بريدك الإلكتروني وافتح رسالة التأكيد أولًا.";
+    if (/User already registered/i.test(msg)) return "هذا البريد مسجل مسبقًا. جرّب تسجيل الدخول.";
+    if (/Failed to fetch|NetworkError/i.test(msg)) return "تعذر الاتصال بالخدمة. تحقق من الإنترنت ثم أعد المحاولة.";
+    return "تعذر إكمال العملية: " + msg;
+  }
+
+  async function requireClient() {
+    if (!window.supabase?.createClient) {
+      throw new Error("تعذر تحميل مكتبة الاتصال. تحقق من الإنترنت ثم أعد تحميل الصفحة.");
     }
-  }catch(error){
-    console.error("Password update error:",error);
-    showResetMessage("تعذر تغيير كلمة المرور: "+error.message);
-  }finally{$("updatePasswordBtn").disabled=false}
-}
-
-async function initialize(){
-  if(!window.supabase||!SUPABASE_PUBLISHABLE_KEY.startsWith("sb_publishable_")){
-    showMessage("تعذر تحميل Supabase أو المفتاح العام غير صحيح.");
-    return;
+    if (!db) {
+      db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
+      });
+    }
+    return db;
   }
 
-  db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{
-    auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
+  async function handleMain() {
+    if (busy) return;
+    clearMessage();
+    setBusy(true);
+
+    try {
+      const client = await requireClient();
+
+      if (resetMode) {
+        const password = $("newPassword").value;
+        if (password.length < 8) throw new Error("اجعل كلمة المرور 8 أحرف على الأقل.");
+        const { error } = await client.auth.updateUser({ password });
+        if (error) throw error;
+
+        resetMode = false;
+        $("newPassword").value = "";
+        mode = "login";
+        updateView();
+        showMessage("تم تحديث كلمة المرور. يمكنك تسجيل الدخول الآن.", "success");
+        return;
+      }
+
+      if (mode === "phone") {
+        const phone = $("phone").value.trim();
+        if (!/^\+[1-9]\d{7,14}$/.test(phone)) {
+          throw new Error("أدخل رقم الهاتف بالصيغة الدولية، مثل +9677XXXXXXXX.");
+        }
+
+        if (!otpSent) {
+          const { error } = await client.auth.signInWithOtp({
+            phone,
+            options: { shouldCreateUser: true }
+          });
+          if (error) throw error;
+          otpSent = true;
+          updateView();
+          showMessage("تم طلب إرسال رمز التحقق. إذا لم تصلك الرسالة، تحقق من إعدادات مزود SMS والرصيد والرقم.", "success");
+        } else {
+          const token = $("otp").value.trim();
+          if (!token) throw new Error("أدخل رمز التحقق الذي وصلك برسالة.");
+          const { error } = await client.auth.verifyOtp({
+            phone,
+            token,
+            type: "sms"
+          });
+          if (error) throw error;
+          showMessage("تم التحقق من الهاتف.", "success");
+          await showDashboard();
+        }
+        return;
+      }
+
+      const email = $("email").value.trim();
+      const password = $("password").value;
+      if (!email) throw new Error("أدخل البريد الإلكتروني.");
+      if (!password) throw new Error("أدخل كلمة المرور.");
+
+      if (mode === "signup") {
+        if (password.length < 8) throw new Error("اجعل كلمة المرور 8 أحرف على الأقل.");
+        const { data, error } = await client.auth.signUp({ email, password });
+        if (error) throw error;
+
+        if (data.session) {
+          showMessage("تم إنشاء الحساب.", "success");
+          await showDashboard();
+        } else {
+          showMessage("تم إرسال طلب إنشاء الحساب. افتح رسالة التأكيد في بريدك إن طُلب منك ذلك، ثم سجّل الدخول.", "success");
+        }
+      } else {
+        const { error } = await client.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        showMessage("تم تسجيل الدخول.", "success");
+        await showDashboard();
+      }
+    } catch (error) {
+      showMessage(friendlyError(error), "error");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function sendPasswordReset() {
+    clearMessage();
+    try {
+      const client = await requireClient();
+      const email = $("email").value.trim();
+      if (!email) throw new Error("أدخل بريدك الإلكتروني أولًا.");
+
+      const redirectTo = window.location.origin + window.location.pathname;
+      const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo });
+      if (error) throw error;
+
+      showMessage("إذا كان البريد صالحًا، ستصلك رسالة استعادة. افتحها من الجهاز نفسه لإكمال العملية.", "success");
+    } catch (error) {
+      showMessage(friendlyError(error), "error");
+    }
+  }
+
+  async function loadWallet() {
+    $("walletPoints").textContent = "…";
+    try {
+      const client = await requireClient();
+      const { data: userData, error: userError } = await client.auth.getUser();
+      if (userError) throw userError;
+      if (!userData.user) throw new Error("انتهت الجلسة. سجّل الدخول مجددًا.");
+
+      const { data, error } = await client
+        .from("wallets")
+        .select("points")
+        .eq("user_id", userData.user.id)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      if (!data) {
+        $("walletPoints").textContent = "غير متاحة";
+        showMessage("لا يوجد سجل محفظة لهذا الحساب في قاعدة البيانات. لم يتم إنشاء سجل تلقائيًا.", "info");
+        return;
+      }
+
+      $("walletPoints").textContent = String(data.points ?? 0);
+    } catch (error) {
+      $("walletPoints").textContent = "—";
+      showMessage(friendlyError(error), "error");
+    }
+  }
+
+  async function showDashboard() {
+    const client = await requireClient();
+    const { data, error } = await client.auth.getUser();
+    if (error) throw error;
+    if (!data.user) return;
+
+    $("userEmail").textContent = data.user.email || data.user.phone || "حسابك الشخصي";
+    $("authSection").classList.add("hidden");
+    $("welcome").classList.add("hidden");
+    $("dashboard").classList.remove("hidden");
+    await loadWallet();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  async function logout() {
+    clearMessage();
+    try {
+      const client = await requireClient();
+      const { error } = await client.auth.signOut();
+      if (error) throw error;
+      $("dashboard").classList.add("hidden");
+      $("welcome").classList.remove("hidden");
+      $("authSection").classList.remove("hidden");
+      showMessage("تم تسجيل الخروج.", "success");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (error) {
+      showMessage(friendlyError(error), "error");
+    }
+  }
+
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      mode = tab.dataset.mode;
+      resetMode = false;
+      otpSent = false;
+      $("otp").value = "";
+      clearMessage();
+      updateView();
+    });
   });
 
-  db.auth.onAuthStateChange((event,session)=>{
-    if(event==="PASSWORD_RECOVERY"){
-      recoveryEventSeen=true;
-      recoveryReady=Boolean(session);
-      showRecoveryForm();
-      showResetMessage("أدخل كلمة المرور الجديدة لحسابك.");
-    }
+  $("mainButton").addEventListener("click", handleMain);
+  $("forgotButton").addEventListener("click", sendPasswordReset);
+  $("backButton").addEventListener("click", () => {
+    resetMode = false;
+    mode = "login";
+    clearMessage();
+    updateView();
   });
+  $("refreshWallet").addEventListener("click", loadWallet);
+  $("logoutButton").addEventListener("click", logout);
 
-  const {data,error}=await db.auth.getSession();
-  if(error){
-    console.error("Session error:",error);
-    showMessage("تعذر التحقق من الجلسة: "+error.message);
-    return;
-  }
+  async function initialize() {
+    updateView();
+    try {
+      const client = await requireClient();
+      const { data, error } = await client.auth.getSession();
+      if (error) throw error;
 
-  if(isRecoveryUrl()){
-    if(data.session){
-      recoveryReady=true;
-      showRecoveryForm();
-      showResetMessage("أدخل كلمة المرور الجديدة لحسابك.");
-    }else if(!recoveryEventSeen){
-      showRecoveryForm();
-      showResetMessage("جارٍ التحقق من رابط الاستعادة. إذا لم يعمل، اطلب رابطًا جديدًا.");
+      if (data.session) {
+        await showDashboard();
+      }
+    } catch (error) {
+      showMessage(friendlyError(error), "error");
     }
-    return;
+
+    if (window.location.hash.includes("type=recovery")) {
+      resetMode = true;
+      mode = "login";
+      updateView();
+      showMessage("أدخل كلمة مرور جديدة لإكمال استعادة الحساب.", "info");
+    }
+
+    if (window.location.search.includes("error=")) {
+      showMessage("تعذر إكمال رابط التحقق. افتح الرابط الأحدث من بريدك أو اطلب رسالة جديدة.", "error");
+    }
+
+    if (db) {
+      db.auth.onAuthStateChange((event) => {
+        if (event === "PASSWORD_RECOVERY") {
+          resetMode = true;
+          updateView();
+          showMessage("أدخل كلمة مرور جديدة.", "info");
+        }
+      });
+    }
   }
 
-  if(data.session&&data.session.user){
-    setLoggedIn(data.session.user);
-    await loadWallet(data.session.user);
-  }else{
-    setLoggedIn(null);
-    showMessage("أنشئ حسابًا أو سجّل الدخول لعرض محفظتك.");
-  }
-}
-
-$("signupBtn").addEventListener("click",signup);
-$("authForm").addEventListener("submit",login);
-$("forgotBtn").addEventListener("click",requestPasswordReset);
-$("logoutBtn").addEventListener("click",logout);
-$("resetForm").addEventListener("submit",updatePassword);
-
-initialize().catch(error=>{
-  console.error("Initialization error:",error);
-  showMessage("حدث خطأ أثناء تشغيل الموقع: "+error.message);
-});
+  initialize();
 })();
 </script>
 </body>
