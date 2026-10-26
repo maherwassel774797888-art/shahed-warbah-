@@ -409,7 +409,57 @@ document.getElementById("forgotBtn").addEventListener("click", async function ()
     showMessage("تعذر إرسال رابط الاستعادة: " + error.message);
   }
 });
+const resetSection = document.getElementById("resetPasswordSection");
+const resetMessage = document.getElementById("resetMessage");
+const updatePasswordBtn = document.getElementById("updatePasswordBtn");
 
+if (resetSection && db) {
+  db.auth.onAuthStateChange((event, session) => {
+    if (
+      event === "PASSWORD_RECOVERY" ||
+      (window.location.hash.includes("type=recovery") && session)
+    ) {
+      resetSection.hidden = false;
+    }
+  });
+}
+
+updatePasswordBtn.addEventListener("click", async () => {
+  const newPassword = document.getElementById("newPassword").value;
+
+  if (newPassword.length < 8) {
+    resetMessage.textContent = "كلمة المرور يجب أن تكون 8 أحرف على الأقل.";
+    return;
+  }
+
+  resetMessage.textContent = "جارٍ حفظ كلمة المرور...";
+
+  const { error } = await db.auth.updateUser({
+    password: newPassword
+  });
+
+  if (error) {
+    resetMessage.textContent = "تعذر تغيير كلمة المرور: " + error.message;
+  } else {
+    resetMessage.textContent = "تم تغيير كلمة المرور بنجاح. يمكنك تسجيل الدخول الآن.";
+    document.getElementById("newPassword").value = "";
+  }
+});
 </script>
+  <section id="resetPasswordSection" hidden>
+  <h2>تعيين كلمة مرور جديدة</h2>
+  <input
+    id="newPassword"
+    type="password"
+    placeholder="كلمة المرور الجديدة"
+    minlength="8"
+    autocomplete="new-password"
+    required
+  >
+  <button id="updatePasswordBtn" type="button">
+    حفظ كلمة المرور الجديدة
+  </button>
+  <p id="resetMessage"></p>
+  </section>
 </body>
 </html>
