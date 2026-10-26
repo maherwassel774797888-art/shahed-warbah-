@@ -381,6 +381,35 @@ if (
 } else {
   showMessage("أضف المفتاح العام Publishable Key من Supabase لتفعيل الربط.");
 }
+  
+document.getElementById("forgotBtn").addEventListener("click", async function () {
+  if (!db) {
+    showMessage("تعذر الاتصال بقاعدة البيانات.");
+    return;
+  }
+
+  const email = document.getElementById("email").value.trim();
+
+  if (!email) {
+    showMessage("أدخل بريدك الإلكتروني أولًا.");
+    return;
+  }
+
+  showMessage("جارٍ إرسال رابط استعادة كلمة المرور...");
+
+  try {
+    const { error } = await db.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin
+    });
+
+    if (error) throw error;
+
+    showMessage("افحص بريدك الإلكتروني وصندوق الرسائل غير المرغوب فيها.");
+  } catch (error) {
+    showMessage("تعذر إرسال رابط الاستعادة: " + error.message);
+  }
+});
+
 </script>
 </body>
 </html>
