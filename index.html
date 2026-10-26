@@ -1,464 +1,304 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10264f">
 <title>شاهد واربح</title>
-
 <style>
+:root{--navy:#10264f;--blue:#24559a;--gold:#efc75e;--bg:#f3f6fc;--text:#192b49;--muted:#687790;--border:#e0e7f1}
 *{box-sizing:border-box}
-body{
-  margin:0;
-  background:#f3f6fc;
-  color:#18294b;
-  font-family:Arial,sans-serif
-}
-header{
-  background:linear-gradient(135deg,#0b1838,#173d78);
-  color:white;
-  padding:24px 16px;
-  border-bottom:4px solid #e7b94e
-}
-.top{
-  max-width:900px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px
-}
-.logo{font-size:24px;font-weight:800}
-.logo span{color:#f4c95d}
-.tag{font-size:12px;color:#d9e5ff}
-main{max-width:900px;margin:22px auto;padding:0 14px}
-.hero{
-  padding:22px 18px;
-  border-radius:18px;
-  background:linear-gradient(120deg,#173d78,#0b1838);
-  color:white;
-  margin-bottom:18px
-}
-.hero h1{font-size:25px;margin:0 0 10px}
-.hero p{color:#dbe7ff;line-height:1.8}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:14px
-}
-.card{
-  background:white;
-  border:1px solid #e5eaf3;
-  border-radius:16px;
-  padding:18px;
-  margin-bottom:16px;
-  box-shadow:0 5px 18px #10264f0b
-}
-.balance{background:#fff9e8;border-color:#f1d88c}
-h2{font-size:19px;margin:0 0 14px}
-.small{font-size:13px;color:#68758c;line-height:1.8}
-.points{font-size:30px;font-weight:bold;color:#173d78;margin:8px 0}
-input{
-  display:block;
-  width:100%;
-  padding:13px;
-  margin:10px 0;
-  border:1px solid #ccd5e5;
-  border-radius:10px;
-  font-size:16px
-}
-button,.watch{
-  display:inline-block;
-  border:0;
-  border-radius:10px;
-  padding:12px 16px;
-  background:#e7b94e;
-  color:#18294b;
-  font-weight:bold;
-  font-size:15px;
-  cursor:pointer;
-  text-decoration:none;
-  margin:4px 0
-}
-button:disabled{opacity:.6}
-.secondary{background:#e7edf7}
-.video-art{
-  height:125px;
-  border-radius:12px;
-  background:linear-gradient(135deg,#10264f,#3166a8);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#f5ce67;
-  font-size:42px;
-  margin-bottom:14px
-}
-.video-card h3{font-size:16px}
-#message{overflow-wrap:anywhere}
-footer{
-  text-align:center;
-  color:#758198;
-  font-size:12px;
-  padding:20px;
-  line-height:1.8
-}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,Arial,sans-serif;line-height:1.7}
+header{background:linear-gradient(135deg,#0a1733,#204e91);color:#fff;border-bottom:4px solid var(--gold);padding:18px 15px}
+.top,main,footer{width:min(920px,100%);margin:auto}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{font-size:23px;font-weight:900}.logo span{color:var(--gold)}.tag{font-size:12px;color:#dce7fa}
+main{padding:20px 14px}
+.hero{padding:25px 20px;margin-bottom:17px;border-radius:22px;color:white;background:linear-gradient(130deg,#204e91,#0a1733)}
+.hero h1{margin:0 0 8px;font-size:25px}.hero p{margin:0;color:#e1eaff}
+.card{background:white;border:1px solid var(--border);border-radius:18px;padding:19px;margin-bottom:16px;box-shadow:0 5px 22px #10264f08;min-width:0}
+h2{font-size:19px;margin:0 0 12px}h3{font-size:16px;margin:8px 0}
+.small{font-size:13px;color:var(--muted)}.hidden{display:none!important}
+label{display:block;font-size:14px;font-weight:650}
+input{display:block;width:100%;padding:13px;margin:8px 0 12px;border:1px solid #ccd6e5;border-radius:11px;background:white;color:var(--text);font:inherit}
+input:focus{outline:2px solid #9bbce9;border-color:var(--blue)}
+button,.watch{display:inline-block;border:0;border-radius:11px;padding:11px 15px;margin:4px 2px;background:var(--gold);color:#18294b;font:inherit;font-weight:750;cursor:pointer;text-decoration:none}
+button:disabled{opacity:.6;cursor:wait}
+button.primary{background:var(--blue);color:white}button.secondary{background:#eaf0f9;color:var(--navy)}button.full{width:100%;margin:6px 0}
+.actions{display:flex;flex-wrap:wrap;gap:6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:14px}
+.balance{background:#fff9e8;border-color:#f0dda3}
+.points{font-size:30px;font-weight:850;color:var(--blue);overflow-wrap:anywhere}
+.status{padding:10px 12px;margin:12px 0 0;border-radius:10px;background:#f0f4fa;overflow-wrap:anywhere;font-size:13px}
+.video-art{height:120px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,#10264f,#3166a8);color:var(--gold);font-size:40px}
+.watch{background:#eaf0f9;color:var(--navy)}
+footer{padding:22px 15px;text-align:center;color:var(--muted);font-size:12px}
+@media(max-width:480px){.logo{font-size:20px}.tag{max-width:115px;text-align:left}.hero h1{font-size:22px}.card{padding:15px}}
 </style>
 </head>
-
 <body>
-<header>
-  <div class="top">
-    <div class="logo">▶ شاهد <span>واربح</span></div>
-    <div class="tag">منصتك لمشاهدة الفيديوهات</div>
-  </div>
-</header>
+<header><div class="top"><div class="logo">▶ شاهد <span>واربح</span></div><div class="tag">منصتك الرقمية للفيديوهات</div></div></header>
 
 <main>
-  <section class="hero">
-    <h1>أهلًا بك في شاهد واربح</h1>
-    <p>
-      أنشئ حسابك وابدأ تجربة المنصة.
-      النقاط والمكافآت الحقيقية ستتوفر عند تجهيز نظام المهام الممولة والتحقق منها.
-    </p>
-  </section>
+<section class="hero">
+<h1>مرحبًا بك في شاهد واربح</h1>
+<p>استكشف الفيديوهات وأدر حسابك ونقاطك من مكان واحد. المكافآت والسحب غير متاحين حتى تجهيز نظام تمويل ودفع موثوق.</p>
+</section>
 
-  <section class="card" id="authCard">
-    <h2>🔐 حسابك</h2>
-    <p class="small">أدخل بريدك الإلكتروني وكلمة مرورك.</p>
+<section class="card" id="authCard">
+<h2>🔐 حسابك</h2>
+<p class="small">سجّل الدخول أو أنشئ حسابًا جديدًا.</p>
+<form id="authForm">
+<label for="email">البريد الإلكتروني</label>
+<input id="email" type="email" autocomplete="email" placeholder="example@email.com" required>
+<label for="password">كلمة المرور</label>
+<input id="password" type="password" autocomplete="current-password" minlength="8" placeholder="8 أحرف على الأقل" required>
+<div class="actions">
+<button class="primary" id="loginBtn" type="submit">تسجيل الدخول</button>
+<button id="signupBtn" type="button">إنشاء حساب</button>
+</div>
+</form>
+<button class="secondary" id="forgotBtn" type="button">نسيت كلمة المرور؟</button>
+<button class="secondary hidden" id="logoutBtn" type="button">تسجيل الخروج</button>
+<p class="status" id="message" role="status" aria-live="polite">سجّل الدخول لعرض محفظتك.</p>
+</section>
 
-    <form id="authForm">
-      <input
-        id="email"
-        type="email"
-        placeholder="البريد الإلكتروني"
-        autocomplete="email"
-        required
-      >
+<section class="card hidden" id="resetPasswordSection">
+<h2>🔑 تعيين كلمة مرور جديدة</h2>
+<p class="small">أدخل كلمة مرور جديدة لا تقل عن 8 أحرف.</p>
+<form id="resetForm">
+<label for="newPassword">كلمة المرور الجديدة</label>
+<input id="newPassword" type="password" autocomplete="new-password" minlength="8" required>
+<label for="confirmPassword">تأكيد كلمة المرور</label>
+<input id="confirmPassword" type="password" autocomplete="new-password" minlength="8" required>
+<button class="primary full" id="updatePasswordBtn" type="submit">حفظ كلمة المرور الجديدة</button>
+</form>
+<p class="status" id="resetMessage" role="status" aria-live="polite"></p>
+</section>
 
-      <input
-        id="password"
-        type="password"
-        placeholder="كلمة المرور (8 أحرف على الأقل)"
-        autocomplete="current-password"
-        minlength="8"
-        required
-      >
+<section class="grid">
+<div class="card balance"><h2>⭐ رصيد النقاط</h2><div class="points"><span id="points">—</span></div><p class="small">الرصيد المحفوظ لحسابك في قاعدة البيانات.</p></div>
+<div class="card"><h2>💰 المحفظة</h2><div class="points"><span id="wallet">—</span></div><p class="small">النقاط ليست أموالًا، والسحب غير مفعّل حاليًا.</p></div>
+</section>
 
-      <button id="signupBtn" type="button">إنشاء حساب</button>
-      <button id="loginBtn" type="submit">تسجيل الدخول</button>
-    </form>
-<button id="forgotBtn" type="button">نسيت كلمة المرور؟</button>
-    <button id="logoutBtn" class="secondary" hidden>
-      تسجيل الخروج
-    </button>
-
-    <p id="message" class="small" aria-live="polite">
-      سجّل الدخول لعرض محفظتك.
-    </p>
-  </section>
-
-  <section class="grid">
-    <div class="card balance">
-      <h2>⭐ رصيد نقاطك</h2>
-      <div class="points"><span id="points">—</span> نقطة</div>
-      <p class="small">يعرض الرصيد المحفوظ في قاعدة البيانات عند تسجيل الدخول.</p>
-    </div>
-
-    <div class="card">
-      <h2>💰 المحفظة</h2>
-      <div class="points"><span id="wallet">—</span> نقطة</div>
-      <p class="small">السحب المالي غير متاح حتى تجهيز نظام دفع موثوق.</p>
-    </div>
-  </section>
-
-  <section class="card">
-    <h2>🎬 فيديوهات مقترحة</h2>
-    <p class="small">
-      يمكنك استكشاف الفيديوهات. المشاهدة وحدها لا تمنح نقاطًا أو أموالًا.
-    </p>
-
-    <div class="grid">
-      <div class="video-card">
-        <div class="video-art">▶</div>
-        <h3>فيديوهات متنوعة</h3>
-        <p class="small">اكتشف محتوى جديدًا.</p>
-        <a
-          class="watch"
-          href="https://www.youtube.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >مشاهدة الفيديوهات</a>
-      </div>
-
-      <div class="video-card">
-        <div class="video-art">★</div>
-        <h3>ترفيه وثقافة</h3>
-        <p class="small">اختر ما تحب مشاهدته.</p>
-        <a
-          class="watch"
-          href="https://www.youtube.com/results?search_query=فيديوهات+ترفيهية"
-          target="_blank"
-          rel="noopener noreferrer"
-        >اكتشف الفيديوهات</a>
-      </div>
-    </div>
-  </section>
+<section class="card">
+<h2>🎬 اكتشف الفيديوهات</h2>
+<p class="small">مشاهدة الفيديوهات لا تمنح نقاطًا تلقائيًا.</p>
+<div class="grid">
+<article><div class="video-art">▶</div><h3>فيديوهات متنوعة</h3><a class="watch" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">استكشاف الفيديوهات</a></article>
+<article><div class="video-art">★</div><h3>الترفيه والثقافة</h3><a class="watch" href="https://www.youtube.com/results?search_query=فيديوهات+ثقافية" target="_blank" rel="noopener noreferrer">اكتشف المحتوى</a></article>
+</div>
+</section>
 </main>
 
-<footer>
-  شاهد واربح © 2026<br>
-  منصة قيد التطوير. النقاط ليست أموالًا حقيقية ولا يمكن سحبها حاليًا.
-</footer>
+<footer>شاهد واربح © 2026<br>منصة قيد التطوير. لا توجد أرباح مضمونة أو سحوبات مالية مفعّلة.</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <section id="resetPasswordSection" hidden>
-  <h2>تعيين كلمة مرور جديدة</h2>
-  <input
-    id="newPassword"
-    type="password"
-    placeholder="كلمة المرور الجديدة"
-    minlength="8"
-    autocomplete="new-password"
-    required
-  >
-  <button id="updatePasswordBtn" type="button">
-    حفظ كلمة المرور الجديدة
-  </button>
-  <p id="resetMessage"></p>
-  </section>
 <script>
+(() => {
+"use strict";
+
 const SUPABASE_URL = "https://ljfayiuffiskxuxhspem.supabase.co";
-
-// استبدل النص التالي بالمفتاح العام Publishable Key من Supabase
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_BPxQBCmB8aQvXRytv9rhFA_a3sUerrG";
-
-const message = document.getElementById("message");
-const pointsEl = document.getElementById("points");
-const walletEl = document.getElementById("wallet");
-const signupBtn = document.getElementById("signupBtn");
-const loginBtn = document.getElementById("loginBtn");
-const logoutBtn = document.getElementById("logoutBtn");
+const $ = id => document.getElementById(id);
 
 let db = null;
 let currentUser = null;
+let recoveryReady = false;
+let recoveryEventSeen = false;
 
-function showMessage(text) {
-  message.textContent = text;
+function showMessage(text){$("message").textContent=text}
+function showResetMessage(text){$("resetMessage").textContent=text}
+
+function setLoggedIn(user){
+  currentUser=user||null;
+  const loggedIn=Boolean(user);
+  $("email").disabled=loggedIn;
+  $("password").disabled=loggedIn;
+  $("signupBtn").classList.toggle("hidden",loggedIn);
+  $("loginBtn").classList.toggle("hidden",loggedIn);
+  $("logoutBtn").classList.toggle("hidden",!loggedIn);
 }
 
-function setLoggedIn(user) {
-  currentUser = user;
-  document.getElementById("email").hidden = Boolean(user);
-  document.getElementById("password").hidden = Boolean(user);
-  signupBtn.hidden = Boolean(user);
-  loginBtn.hidden = Boolean(user);
-  logoutBtn.hidden = !user;
+function showRecoveryForm(){
+  $("resetPasswordSection").classList.remove("hidden");
+  $("resetPasswordSection").scrollIntoView({behavior:"smooth",block:"start"});
 }
 
-async function loadWallet(user) {
-  pointsEl.textContent = "—";
-  walletEl.textContent = "—";
+function isRecoveryUrl(){
+  return /(?:^|[&#?])type=recovery(?:&|$)/i.test(location.hash+"&"+location.search);
+}
 
-  const { data, error } = await db
-    .from("wallets")
-    .select("points")
-    .eq("user_id", user.id)
-    .maybeSingle();
-
-  if (error) {
-    showMessage("خطأ المحفظة: " + error.message);
+async function loadWallet(user){
+  $("points").textContent="—";
+  $("wallet").textContent="—";
+  const {data,error}=await db.from("wallets").select("points").eq("user_id",user.id).maybeSingle();
+  if(error){
+    console.error("Wallet read error:",error);
+    showMessage("خطأ المحفظة: "+error.message);
     return;
   }
-
-  if (!data) {
-    showMessage("تم تسجيل الدخول، لكن لم يتم العثور على محفظة لهذا الحساب.");
+  if(!data){
+    showMessage("تم تسجيل الدخول، لكن لا توجد محفظة لهذا الحساب.");
     return;
   }
-
-  pointsEl.textContent = data.points;
-  walletEl.textContent = data.points;
+  $("points").textContent=data.points??0;
+  $("wallet").textContent=data.points??0;
   showMessage("تم تسجيل الدخول وتحميل رصيد المحفظة.");
 }
 
-async function signup() {
-  if (!db) {
-    showMessage("تحقق من إضافة المفتاح العام الصحيح أولًا.");
-    return;
-  }
-
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-
-  if (!email || password.length < 8) {
-    showMessage("أدخل بريدًا إلكترونيًا صحيحًا وكلمة مرور من 8 أحرف على الأقل.");
-    return;
-  }
-
-  signupBtn.disabled = true;
+async function signup(){
+  if(!db){showMessage("تعذر الاتصال بـ Supabase. تحقق من المفتاح العام.");return}
+  const email=$("email").value.trim();
+  const password=$("password").value;
+  if(!email||password.length<8){showMessage("أدخل بريدًا صحيحًا وكلمة مرور من 8 أحرف على الأقل.");return}
+  $("signupBtn").disabled=true;
   showMessage("جارٍ إنشاء الحساب...");
-
-  try {
-    const { data, error } = await db.auth.signUp({
-      email,
-      password
-    });
-
-    if (error) throw error;
-
-    if (data.session && data.user) {
+  try{
+    const {data,error}=await db.auth.signUp({email,password});
+    if(error)throw error;
+    if(data.session&&data.user){
       setLoggedIn(data.user);
       await loadWallet(data.user);
-    } else {
-      showMessage("تم إرسال طلب التسجيل. افحص بريدك لتأكيد الحساب، ثم سجّل الدخول.");
+    }else{
+      showMessage("تم إرسال طلب التسجيل. افحص بريدك لتأكيد الحساب ثم سجّل الدخول.");
     }
-  } catch (error) {
-    showMessage("تعذر إنشاء الحساب: " + error.message);
-  } finally {
-    signupBtn.disabled = false;
-  }
+  }catch(error){showMessage("تعذر إنشاء الحساب: "+error.message)}
+  finally{$("signupBtn").disabled=false}
 }
 
-async function login(event) {
+async function login(event){
   event.preventDefault();
-
-  if (!db) {
-    showMessage("تحقق من إضافة المفتاح العام الصحيح أولًا.");
-    return;
-  }
-
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-
-  loginBtn.disabled = true;
+  if(!db){showMessage("تعذر الاتصال بـ Supabase. تحقق من المفتاح العام.");return}
+  const email=$("email").value.trim();
+  const password=$("password").value;
+  $("loginBtn").disabled=true;
   showMessage("جارٍ تسجيل الدخول...");
-
-  try {
-    const { data, error } = await db.auth.signInWithPassword({
-      email,
-      password
-    });
-
-    if (error) throw error;
-
+  try{
+    const {data,error}=await db.auth.signInWithPassword({email,password});
+    if(error)throw error;
     setLoggedIn(data.user);
     await loadWallet(data.user);
-  } catch (error) {
-    showMessage("تعذر تسجيل الدخول: " + error.message);
-  } finally {
-    loginBtn.disabled = false;
-  }
+  }catch(error){showMessage("تعذر تسجيل الدخول: "+error.message)}
+  finally{$("loginBtn").disabled=false}
 }
 
-async function logout() {
-  const { error } = await db.auth.signOut();
-
-  if (error) {
-    showMessage("تعذر تسجيل الخروج: " + error.message);
-    return;
-  }
-
-  currentUser = null;
+async function logout(){
+  if(!db)return;
+  const {error}=await db.auth.signOut();
+  if(error){showMessage("تعذر تسجيل الخروج: "+error.message);return}
   setLoggedIn(null);
-  pointsEl.textContent = "—";
-  walletEl.textContent = "—";
+  $("points").textContent="—";
+  $("wallet").textContent="—";
   showMessage("تم تسجيل الخروج.");
 }
 
-signupBtn.addEventListener("click", signup);
-document.getElementById("authForm").addEventListener("submit", login);
-logoutBtn.addEventListener("click", logout);
-
-if (
-  window.supabase &&
-  SUPABASE_PUBLISHABLE_KEY !== "PASTE_YOUR_PUBLISHABLE_KEY_HERE"
-) {
-  db = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
-
-  db.auth.getSession().then(async ({ data, error }) => {
-    if (error) {
-      showMessage("تعذر التحقق من الجلسة الحالية.");
-      return;
-    }
-
-    if (data.session && data.session.user) {
-      setLoggedIn(data.session.user);
-      await loadWallet(data.session.user);
-    } else {
-      setLoggedIn(null);
-      showMessage("أنشئ حسابًا أو سجّل الدخول لعرض محفظتك.");
-    }
-  });
-} else {
-  showMessage("أضف المفتاح العام Publishable Key من Supabase لتفعيل الربط.");
-}
-  
-document.getElementById("forgotBtn").addEventListener("click", async function () {
-  if (!db) {
-    showMessage("تعذر الاتصال بقاعدة البيانات.");
-    return;
-  }
-
-  const email = document.getElementById("email").value.trim();
-
-  if (!email) {
-    showMessage("أدخل بريدك الإلكتروني أولًا.");
-    return;
-  }
-
-  showMessage("جارٍ إرسال رابط استعادة كلمة المرور...");
-
-  try {
-    const { error } = await db.auth.resetPasswordForEmail(email, {
-      redirectTo: window.location.origin
+async function requestPasswordReset(){
+  if(!db){showMessage("تعذر الاتصال بقاعدة البيانات.");return}
+  const email=$("email").value.trim();
+  if(!email){showMessage("اكتب بريدك الإلكتروني أولًا.");$("email").focus();return}
+  $("forgotBtn").disabled=true;
+  showMessage("جارٍ إرسال رابط الاستعادة...");
+  try{
+    const {error}=await db.auth.resetPasswordForEmail(email,{
+      redirectTo:location.origin+location.pathname
     });
-
-    if (error) throw error;
-
+    if(error)throw error;
     showMessage("افحص بريدك الإلكتروني وصندوق الرسائل غير المرغوب فيها.");
-  } catch (error) {
-    showMessage("تعذر إرسال رابط الاستعادة: " + error.message);
-  }
-});
-const resetSection = document.getElementById("resetPasswordSection");
-const resetMessage = document.getElementById("resetMessage");
-const updatePasswordBtn = document.getElementById("updatePasswordBtn");
-
-if (resetSection && db) {
-  db.auth.onAuthStateChange((event, session) => {
-    if (
-      event === "PASSWORD_RECOVERY" ||
-      (window.location.hash.includes("type=recovery") && session)
-    ) {
-      resetSection.hidden = false;
-    }
-  });
+  }catch(error){showMessage("تعذر إرسال رابط الاستعادة: "+error.message)}
+  finally{$("forgotBtn").disabled=false}
 }
 
-updatePasswordBtn.addEventListener("click", async () => {
-  const newPassword = document.getElementById("newPassword").value;
+async function updatePassword(event){
+  event.preventDefault();
+  if(!db){showResetMessage("تعذر الاتصال بقاعدة البيانات.");return}
+  if(!recoveryReady){
+    showResetMessage("جلسة الاستعادة غير جاهزة. افتح أحدث رابط وصل إلى بريدك الإلكتروني.");
+    return;
+  }
+  const password=$("newPassword").value;
+  const confirmation=$("confirmPassword").value;
+  if(password.length<8){showResetMessage("كلمة المرور يجب أن تكون 8 أحرف على الأقل.");return}
+  if(password!==confirmation){showResetMessage("كلمتا المرور غير متطابقتين.");return}
+  $("updatePasswordBtn").disabled=true;
+  showResetMessage("جارٍ تحديث كلمة المرور...");
+  try{
+    const {data,error}=await db.auth.updateUser({password});
+    if(error)throw error;
+    $("newPassword").value="";
+    $("confirmPassword").value="";
+    showResetMessage("تم تحديث كلمة المرور بنجاح. يمكنك تسجيل الدخول بها.");
+    history.replaceState(null,document.title,location.pathname);
+    recoveryReady=false;
+    recoveryEventSeen=false;
+    if(data.user){
+      setLoggedIn(data.user);
+      showMessage("تم تحديث كلمة المرور بنجاح.");
+    }
+  }catch(error){
+    console.error("Password update error:",error);
+    showResetMessage("تعذر تغيير كلمة المرور: "+error.message);
+  }finally{$("updatePasswordBtn").disabled=false}
+}
 
-  if (newPassword.length < 8) {
-    resetMessage.textContent = "كلمة المرور يجب أن تكون 8 أحرف على الأقل.";
+async function initialize(){
+  if(!window.supabase||!SUPABASE_PUBLISHABLE_KEY.startsWith("sb_publishable_")){
+    showMessage("تعذر تحميل Supabase أو المفتاح العام غير صحيح.");
     return;
   }
 
-  resetMessage.textContent = "جارٍ حفظ كلمة المرور...";
-
-  const { error } = await db.auth.updateUser({
-    password: newPassword
+  db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{
+    auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
   });
 
-  if (error) {
-    resetMessage.textContent = "تعذر تغيير كلمة المرور: " + error.message;
-  } else {
-    resetMessage.textContent = "تم تغيير كلمة المرور بنجاح. يمكنك تسجيل الدخول الآن.";
-    document.getElementById("newPassword").value = "";
+  db.auth.onAuthStateChange((event,session)=>{
+    if(event==="PASSWORD_RECOVERY"){
+      recoveryEventSeen=true;
+      recoveryReady=Boolean(session);
+      showRecoveryForm();
+      showResetMessage("أدخل كلمة المرور الجديدة لحسابك.");
+    }
+  });
+
+  const {data,error}=await db.auth.getSession();
+  if(error){
+    console.error("Session error:",error);
+    showMessage("تعذر التحقق من الجلسة: "+error.message);
+    return;
   }
+
+  if(isRecoveryUrl()){
+    if(data.session){
+      recoveryReady=true;
+      showRecoveryForm();
+      showResetMessage("أدخل كلمة المرور الجديدة لحسابك.");
+    }else if(!recoveryEventSeen){
+      showRecoveryForm();
+      showResetMessage("جارٍ التحقق من رابط الاستعادة. إذا لم يعمل، اطلب رابطًا جديدًا.");
+    }
+    return;
+  }
+
+  if(data.session&&data.session.user){
+    setLoggedIn(data.session.user);
+    await loadWallet(data.session.user);
+  }else{
+    setLoggedIn(null);
+    showMessage("أنشئ حسابًا أو سجّل الدخول لعرض محفظتك.");
+  }
+}
+
+$("signupBtn").addEventListener("click",signup);
+$("authForm").addEventListener("submit",login);
+$("forgotBtn").addEventListener("click",requestPasswordReset);
+$("logoutBtn").addEventListener("click",logout);
+$("resetForm").addEventListener("submit",updatePassword);
+
+initialize().catch(error=>{
+  console.error("Initialization error:",error);
+  showMessage("حدث خطأ أثناء تشغيل الموقع: "+error.message);
 });
+})();
 </script>
 </body>
 </html>
