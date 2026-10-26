@@ -212,7 +212,21 @@ footer{
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+  <section id="resetPasswordSection" hidden>
+  <h2>تعيين كلمة مرور جديدة</h2>
+  <input
+    id="newPassword"
+    type="password"
+    placeholder="كلمة المرور الجديدة"
+    minlength="8"
+    autocomplete="new-password"
+    required
+  >
+  <button id="updatePasswordBtn" type="button">
+    حفظ كلمة المرور الجديدة
+  </button>
+  <p id="resetMessage"></p>
+  </section>
 <script>
 const SUPABASE_URL = "https://ljfayiuffiskxuxhspem.supabase.co";
 
@@ -446,20 +460,5 @@ updatePasswordBtn.addEventListener("click", async () => {
   }
 });
 </script>
-  <section id="resetPasswordSection" hidden>
-  <h2>تعيين كلمة مرور جديدة</h2>
-  <input
-    id="newPassword"
-    type="password"
-    placeholder="كلمة المرور الجديدة"
-    minlength="8"
-    autocomplete="new-password"
-    required
-  >
-  <button id="updatePasswordBtn" type="button">
-    حفظ كلمة المرور الجديدة
-  </button>
-  <p id="resetMessage"></p>
-  </section>
 </body>
 </html>
