@@ -6,90 +6,380 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#10264f">
 <title>شاهد واربح</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#f3f6fc;color:#18294b;font-family:Arial,sans-serif}
-header{background:linear-gradient(135deg,#0b1838,#173d78);color:white;padding:24px 16px 30px;border-bottom:4px solid #e7b94e}
-.top{max-width:900px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.logo{font-size:23px;font-weight:800}
+body{
+  margin:0;
+  background:#f3f6fc;
+  color:#18294b;
+  font-family:Arial,sans-serif
+}
+header{
+  background:linear-gradient(135deg,#0b1838,#173d78);
+  color:white;
+  padding:24px 16px;
+  border-bottom:4px solid #e7b94e
+}
+.top{
+  max-width:900px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px
+}
+.logo{font-size:24px;font-weight:800}
 .logo span{color:#f4c95d}
 .tag{font-size:12px;color:#d9e5ff}
 main{max-width:900px;margin:22px auto;padding:0 14px}
-h2{font-size:19px;margin:0 0 14px}
-.hero{padding:22px 18px;border-radius:18px;background:linear-gradient(120deg,#173d78,#0b1838);color:white;margin-bottom:18px}
+.hero{
+  padding:22px 18px;
+  border-radius:18px;
+  background:linear-gradient(120deg,#173d78,#0b1838);
+  color:white;
+  margin-bottom:18px
+}
 .hero h1{font-size:25px;margin:0 0 10px}
-.hero p{color:#dbe7ff;line-height:1.8;margin:0}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-.card{background:white;border:1px solid #e5eaf3;border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:0 5px 18px #10264f0b}
-.balance{background:#fff9e8;border:1px solid #f1d88c}
-.small{font-size:13px;color:#68758c;line-height:1.7}
-.points{font-size:32px;font-weight:bold;color:#173d78;margin:8px 0}
-button,.watch{display:inline-block;border:0;border-radius:10px;padding:12px 16px;background:#e7b94e;color:#18294b;font-weight:bold;font-size:15px;cursor:pointer;text-decoration:none}
-.video-art{height:125px;border-radius:12px;background:linear-gradient(135deg,#10264f,#3166a8);display:flex;align-items:center;justify-content:center;color:#f5ce67;font-size:42px;margin-bottom:14px}
-.video-card h3{font-size:16px;margin:0 0 8px}
-footer{text-align:center;color:#758198;font-size:12px;padding:20px;line-height:1.8}
+.hero p{color:#dbe7ff;line-height:1.8}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px
+}
+.card{
+  background:white;
+  border:1px solid #e5eaf3;
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 5px 18px #10264f0b
+}
+.balance{background:#fff9e8;border-color:#f1d88c}
+h2{font-size:19px;margin:0 0 14px}
+.small{font-size:13px;color:#68758c;line-height:1.8}
+.points{font-size:30px;font-weight:bold;color:#173d78;margin:8px 0}
+input{
+  display:block;
+  width:100%;
+  padding:13px;
+  margin:10px 0;
+  border:1px solid #ccd5e5;
+  border-radius:10px;
+  font-size:16px
+}
+button,.watch{
+  display:inline-block;
+  border:0;
+  border-radius:10px;
+  padding:12px 16px;
+  background:#e7b94e;
+  color:#18294b;
+  font-weight:bold;
+  font-size:15px;
+  cursor:pointer;
+  text-decoration:none;
+  margin:4px 0
+}
+button:disabled{opacity:.6}
+.secondary{background:#e7edf7}
+.video-art{
+  height:125px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#10264f,#3166a8);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#f5ce67;
+  font-size:42px;
+  margin-bottom:14px
+}
+.video-card h3{font-size:16px}
+#message{overflow-wrap:anywhere}
+footer{
+  text-align:center;
+  color:#758198;
+  font-size:12px;
+  padding:20px;
+  line-height:1.8
+}
 </style>
 </head>
+
 <body>
 <header>
-<div class="top">
-<div class="logo">▶ شاهد <span>واربح</span></div>
-<div class="tag">منصتك لمشاهدة الفيديوهات</div>
-</div>
+  <div class="top">
+    <div class="logo">▶ شاهد <span>واربح</span></div>
+    <div class="tag">منصتك لمشاهدة الفيديوهات</div>
+  </div>
 </header>
+
 <main>
-<section class="hero">
-<h1>أهلًا بك في شاهد واربح</h1>
-<p>اكتشف الفيديوهات واستمتع بتجربة مشاهدة سهلة من هاتفك.</p>
-</section>
-<section class="grid">
-<div class="card balance">
-<h2>⭐ رصيد نقاطك</h2>
-<div class="points"><span id="points">0</span> نقطة</div>
-<p class="small">رصيد تجريبي فقط.</p>
-</div>
-<div class="card">
-<h2>💰 المحفظة</h2>
-<div class="points"><span id="wallet">0</span> نقطة</div>
-<p class="small">السحب المالي غير متاح حاليًا.</p>
-</div>
-</section>
-<section class="card">
-<h2>🎬 فيديوهات مقترحة</h2>
-<p class="small">اختر فيديو لفتح YouTube ومشاهدته.</p>
-<div class="grid">
-<div class="video-card">
-<div class="video-art">▶</div>
-<h3>فيديوهات متنوعة</h3>
-<p class="small">اكتشف محتوى جديدًا.</p>
-<a class="watch" href="https://www.youtube.com/" target="_blank" rel="noopener">مشاهدة الفيديو</a>
-</div>
-<div class="video-card">
-<div class="video-art">★</div>
-<h3>ترفيه وثقافة</h3>
-<p class="small">اختر ما تحب مشاهدته.</p>
-<a class="watch" href="https://www.youtube.com/results?search_query=فيديوهات+ترفيهية" target="_blank" rel="noopener">اكتشف الفيديوهات</a>
-</div>
-</div>
-</section>
-<section class="card">
-<h2>🧪 تجربة النقاط</h2>
-<p class="small">الزر للاختبار فقط، ولا يمنح أرباحًا حقيقية.</p>
-<button onclick="addPoints()">إضافة 5 نقاط تجريبية</button>
-<p id="message" class="small" aria-live="polite"></p>
-</section>
+  <section class="hero">
+    <h1>أهلًا بك في شاهد واربح</h1>
+    <p>
+      أنشئ حسابك وابدأ تجربة المنصة.
+      النقاط والمكافآت الحقيقية ستتوفر عند تجهيز نظام المهام الممولة والتحقق منها.
+    </p>
+  </section>
+
+  <section class="card" id="authCard">
+    <h2>🔐 حسابك</h2>
+    <p class="small">أدخل بريدك الإلكتروني وكلمة مرورك.</p>
+
+    <form id="authForm">
+      <input
+        id="email"
+        type="email"
+        placeholder="البريد الإلكتروني"
+        autocomplete="email"
+        required
+      >
+
+      <input
+        id="password"
+        type="password"
+        placeholder="كلمة المرور (8 أحرف على الأقل)"
+        autocomplete="current-password"
+        minlength="8"
+        required
+      >
+
+      <button id="signupBtn" type="button">إنشاء حساب</button>
+      <button id="loginBtn" type="submit">تسجيل الدخول</button>
+    </form>
+
+    <button id="logoutBtn" class="secondary" hidden>
+      تسجيل الخروج
+    </button>
+
+    <p id="message" class="small" aria-live="polite">
+      سجّل الدخول لعرض محفظتك.
+    </p>
+  </section>
+
+  <section class="grid">
+    <div class="card balance">
+      <h2>⭐ رصيد نقاطك</h2>
+      <div class="points"><span id="points">—</span> نقطة</div>
+      <p class="small">يعرض الرصيد المحفوظ في قاعدة البيانات عند تسجيل الدخول.</p>
+    </div>
+
+    <div class="card">
+      <h2>💰 المحفظة</h2>
+      <div class="points"><span id="wallet">—</span> نقطة</div>
+      <p class="small">السحب المالي غير متاح حتى تجهيز نظام دفع موثوق.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>🎬 فيديوهات مقترحة</h2>
+    <p class="small">
+      يمكنك استكشاف الفيديوهات. المشاهدة وحدها لا تمنح نقاطًا أو أموالًا.
+    </p>
+
+    <div class="grid">
+      <div class="video-card">
+        <div class="video-art">▶</div>
+        <h3>فيديوهات متنوعة</h3>
+        <p class="small">اكتشف محتوى جديدًا.</p>
+        <a
+          class="watch"
+          href="https://www.youtube.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >مشاهدة الفيديوهات</a>
+      </div>
+
+      <div class="video-card">
+        <div class="video-art">★</div>
+        <h3>ترفيه وثقافة</h3>
+        <p class="small">اختر ما تحب مشاهدته.</p>
+        <a
+          class="watch"
+          href="https://www.youtube.com/results?search_query=فيديوهات+ترفيهية"
+          target="_blank"
+          rel="noopener noreferrer"
+        >اكتشف الفيديوهات</a>
+      </div>
+    </div>
+  </section>
 </main>
+
 <footer>
-شاهد واربح © 2026<br>
-نسخة تجريبية — النقاط ليست أموالًا حقيقية ولا يمكن سحبها.
+  شاهد واربح © 2026<br>
+  منصة قيد التطوير. النقاط ليست أموالًا حقيقية ولا يمكن سحبها حاليًا.
 </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-let points=0;
-function addPoints(){
-points+=5;
-document.getElementById("points").textContent=points;
-document.getElementById("wallet").textContent=points;
-document.getElementById("message").textContent="تمت إضافة 5 نقاط تجريبية بنجاح.";
+const SUPABASE_URL = "https://ljfayiuffiskxuxhspem.supabase.co";
+
+// استبدل النص التالي بالمفتاح العام Publishable Key من Supabase
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_BPxQBCmB8aQvXRytv9rhFA_a3sUerrG";
+
+const message = document.getElementById("message");
+const pointsEl = document.getElementById("points");
+const walletEl = document.getElementById("wallet");
+const signupBtn = document.getElementById("signupBtn");
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+let db = null;
+let currentUser = null;
+
+function showMessage(text) {
+  message.textContent = text;
+}
+
+function setLoggedIn(user) {
+  currentUser = user;
+  document.getElementById("email").hidden = Boolean(user);
+  document.getElementById("password").hidden = Boolean(user);
+  signupBtn.hidden = Boolean(user);
+  loginBtn.hidden = Boolean(user);
+  logoutBtn.hidden = !user;
+}
+
+async function loadWallet(user) {
+  pointsEl.textContent = "—";
+  walletEl.textContent = "—";
+
+  const { data, error } = await db
+    .from("wallets")
+    .select("points")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (error) {
+    showMessage("تعذر تحميل المحفظة. تحقق من إعدادات قاعدة البيانات.");
+    return;
+  }
+
+  if (!data) {
+    showMessage("تم تسجيل الدخول، لكن لم يتم العثور على محفظة لهذا الحساب.");
+    return;
+  }
+
+  pointsEl.textContent = data.points;
+  walletEl.textContent = data.points;
+  showMessage("تم تسجيل الدخول وتحميل رصيد المحفظة.");
+}
+
+async function signup() {
+  if (!db) {
+    showMessage("تحقق من إضافة المفتاح العام الصحيح أولًا.");
+    return;
+  }
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  if (!email || password.length < 8) {
+    showMessage("أدخل بريدًا إلكترونيًا صحيحًا وكلمة مرور من 8 أحرف على الأقل.");
+    return;
+  }
+
+  signupBtn.disabled = true;
+  showMessage("جارٍ إنشاء الحساب...");
+
+  try {
+    const { data, error } = await db.auth.signUp({
+      email,
+      password
+    });
+
+    if (error) throw error;
+
+    if (data.session && data.user) {
+      setLoggedIn(data.user);
+      await loadWallet(data.user);
+    } else {
+      showMessage("تم إرسال طلب التسجيل. افحص بريدك لتأكيد الحساب، ثم سجّل الدخول.");
+    }
+  } catch (error) {
+    showMessage("تعذر إنشاء الحساب: " + error.message);
+  } finally {
+    signupBtn.disabled = false;
+  }
+}
+
+async function login(event) {
+  event.preventDefault();
+
+  if (!db) {
+    showMessage("تحقق من إضافة المفتاح العام الصحيح أولًا.");
+    return;
+  }
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  loginBtn.disabled = true;
+  showMessage("جارٍ تسجيل الدخول...");
+
+  try {
+    const { data, error } = await db.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) throw error;
+
+    setLoggedIn(data.user);
+    await loadWallet(data.user);
+  } catch (error) {
+    showMessage("تعذر تسجيل الدخول: " + error.message);
+  } finally {
+    loginBtn.disabled = false;
+  }
+}
+
+async function logout() {
+  const { error } = await db.auth.signOut();
+
+  if (error) {
+    showMessage("تعذر تسجيل الخروج: " + error.message);
+    return;
+  }
+
+  currentUser = null;
+  setLoggedIn(null);
+  pointsEl.textContent = "—";
+  walletEl.textContent = "—";
+  showMessage("تم تسجيل الخروج.");
+}
+
+signupBtn.addEventListener("click", signup);
+document.getElementById("authForm").addEventListener("submit", login);
+logoutBtn.addEventListener("click", logout);
+
+if (
+  window.supabase &&
+  SUPABASE_PUBLISHABLE_KEY !== "PASTE_YOUR_PUBLISHABLE_KEY_HERE"
+) {
+  db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  db.auth.getSession().then(async ({ data, error }) => {
+    if (error) {
+      showMessage("تعذر التحقق من الجلسة الحالية.");
+      return;
+    }
+
+    if (data.session && data.session.user) {
+      setLoggedIn(data.session.user);
+      await loadWallet(data.session.user);
+    } else {
+      setLoggedIn(null);
+      showMessage("أنشئ حسابًا أو سجّل الدخول لعرض محفظتك.");
+    }
+  });
+} else {
+  showMessage("أضف المفتاح العام Publishable Key من Supabase لتفعيل الربط.");
 }
 </script>
 </body>
