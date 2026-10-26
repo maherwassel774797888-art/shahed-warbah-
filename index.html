@@ -267,7 +267,7 @@ async function loadWallet(user) {
     .maybeSingle();
 
   if (error) {
-    showMessage("تعذر تحميل المحفظة. تحقق من إعدادات قاعدة البيانات.");
+    showMessage("خطأ المحفظة: " + error.message);
     return;
   }
 
