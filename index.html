@@ -841,83 +841,108 @@
     }
   }
 
-  async function loadPlatformVideos() {
-    const container = $("platformVideos");
-    if (!container) return;
+
+async function loadPlatformVideos() {
+  const container = $("platformVideos");
+  if (!container) return;
+
+  container.replaceChildren();
+
+  const loading = document.createElement("p");
+  loading.textContent = "جارٍ تحميل الفيديوهات...";
+  container.appendChild(loading);
+
+  try {
+    const client = await requireClient();
+
+    const { data, error } = await client
+      .from("videos")
+      .select("id, title, description, category, public_url, created_at")
+      .eq("is_published", true)
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
 
     container.replaceChildren();
 
-    const loading = document.createElement("p");
-    loading.textContent = "جارٍ تحميل الفيديوهات...";
-    container.appendChild(loading);
+    if (!data || data.length === 0) {
+      const empty = document.createElement("p");
+      empty.textContent = "لا توجد فيديوهات منشورة حاليًا.";
+      container.appendChild(empty);
+      return;
+    }
 
-    try {
-      const client = await requireClient();
+    let displayed = 0;
 
-      const { data, error } = await client
-        .from("videos")
-        .select("id, title, description, category, public_url, created_at")
-        .eq("is_published", true)
-        .order("created_at", { ascending: false });
+    data.forEach(video => {
+      if (!video.public_url) return;
 
-      if (error) throw error;
+      const card = document.createElement("article");
+      card.className = "platform-video";
 
-      container.replaceChildren();
+      const player = document.createElement("video");
+      player.controls = true;
+      player.preload = "metadata";
+      player.playsInline = true;
+      player.setAttribute("playsinline", "");
+      player.setAttribute("controlslist", "nodownload");
 
-      if (!data || data.length === 0) {
-        const empty = document.createElement("p");
-        empty.textContent = "لا توجد فيديوهات منشورة حاليًا.";
-        container.appendChild(empty);
-        return;
-      }
+      const source = document.createElement("source");
+      source.src = video.public_url;
+      source.type = "video/mp4";
+      player.appendChild(source);
 
-      data.forEach(video => {
-        if (!video.public_url) return;
+      const playbackError = document.createElement("p");
+      playbackError.hidden = true;
+      playbackError.textContent =
+        "تعذر تشغيل الفيديو. جرّب فتحه من الرابط المباشر أو تحقق من تنسيق الملف.";
+      playbackError.setAttribute("role", "status");
 
-        const card = document.createElement("article");
-        card.className = "platform-video";
-
-        const player = document.createElement("video");
-        player.controls = true;
-        player.preload = "metadata";
-        player.playsInline = true;
-        player.src = video.public_url;
-
-        const title = document.createElement("h4");
-        title.textContent = video.title || "فيديو جديد";
-
-        card.append(player, title);
-
-        if (video.category) {
-          const category = document.createElement("p");
-          category.textContent = "التصنيف: " + video.category;
-          card.appendChild(category);
-        }
-
-        if (video.description) {
-          const description = document.createElement("p");
-          description.textContent = video.description;
-          card.appendChild(description);
-        }
-
-        container.appendChild(card);
+      player.addEventListener("error", () => {
+        playbackError.hidden = false;
+        console.error(
+          "Video playback error:",
+          video.title,
+          player.error ? player.error.code : "unknown"
+        );
       });
 
-      if (!container.children.length) {
-        const empty = document.createElement("p");
-        empty.textContent = "لا توجد فيديوهات صالحة للعرض حاليًا.";
-        container.appendChild(empty);
-      }
-    } catch (error) {
-      console.error("Video loading error:", error);
-      container.replaceChildren();
+      const title = document.createElement("h4");
+      title.textContent = video.title || "فيديو جديد";
 
-      const errorMessage = document.createElement("p");
-      errorMessage.textContent =
-        "تعذر تحميل الفيديوهات. تحقق من صلاحيات القراءة لجدول videos وروابط الفيديو.";
-      container.appendChild(errorMessage);
+      card.append(player, title, playbackError);
+
+      if (video.category) {
+        const category = document.createElement("p");
+        category.textContent = "التصنيف: " + video.category;
+        card.appendChild(category);
+      }
+
+      if (video.description) {
+        const description = document.createElement("p");
+        description.textContent = video.description;
+        card.appendChild(description);
+      }
+
+      container.appendChild(card);
+      displayed++;
+    });
+
+    if (displayed === 0) {
+      const empty = document.createElement("p");
+      empty.textContent = "لا توجد فيديوهات صالحة للعرض حاليًا.";
+      container.appendChild(empty);
     }
+  } catch (error) {
+    console.error("Video loading error:", error);
+    container.replaceChildren();
+
+    const errorMessage = document.createElement("p");
+    errorMessage.textContent =
+      "تعذر تحميل الفيديوهات. تحقق من صلاحيات القراءة لجدول videos وروابط الفيديو.";
+    container.appendChild(errorMessage);
   }
+}
 
   async function showDashboard() {
     const client = await requireClient();
