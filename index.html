@@ -1196,7 +1196,11 @@ async function loadPlatformVideos() {
     $("welcome").classList.add("hidden");
     $("dashboard").classList.remove("hidden");
 
-    await Promise.all([loadWallet(), loadPlatformVideos()]);
+    await Promise.all([
+  loadWallet(),
+  loadPlatformVideos(),
+  loadTransferHistory()
+]);
 
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
