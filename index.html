@@ -9,6 +9,97 @@
   <meta name="description" content="شاهد واربح، منصتك الترفيهية العربية.">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+/* تحسين الواجهة الرئيسية لشاهد وربة */
+:root {
+  --navy: #06152e;
+  --panel: #0c2342;
+  --gold: #f4c542;
+  --gold2: #ffe38a;
+  --white: #f8fbff;
+  --muted: #b6c6dc;
+  --border: rgba(74, 163, 255, .32);
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 80% 0%, #123c68 0%, transparent 42%),
+    linear-gradient(180deg, #06152e, #071a34 65%, #041126);
+}
+
+header {
+  border: 1px solid rgba(69,180,255,.38);
+  border-radius: 20px;
+  background: rgba(4,17,38,.92);
+  box-shadow: 0 12px 35px rgba(0,0,0,.2);
+}
+
+.logo {
+  color: #08203d;
+  background: linear-gradient(145deg, #ffe88b, #f4bd24);
+  box-shadow: 0 0 22px rgba(244,197,66,.2);
+}
+
+.visual {
+  border: 1px solid rgba(69,180,255,.46);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 80% 15%, rgba(244,197,66,.25), transparent 25%),
+    linear-gradient(140deg, #173e68, #0a1d38 68%, #08162c);
+  box-shadow: 0 18px 45px rgba(0,0,0,.22);
+}
+
+.play-orb {
+  color: #07162e;
+  background: linear-gradient(145deg, #ffe88b, #f4bd24);
+  box-shadow: 0 0 0 10px rgba(244,197,66,.08);
+}
+
+.info-card, .auth-card, .dashboard-card {
+  border: 1px solid rgba(69,180,255,.28);
+  border-radius: 20px;
+  background: linear-gradient(145deg, #0d2442, #07172c);
+  box-shadow: 0 14px 35px rgba(0,0,0,.16);
+}
+
+.tab.active, .primary {
+  color: #07162e;
+  border-color: transparent;
+  background: linear-gradient(110deg, #ffe88b, #f4c542 70%, #f5ad25);
+}
+
+.platform-video {
+  border: 1px solid rgba(69,180,255,.28);
+  border-radius: 18px;
+  background: linear-gradient(145deg, #102947, #081a32);
+}
+
+.platform-video h4 {
+  color: #ffe38a;
+}
+
+.video-link {
+  border-color: rgba(69,180,255,.28);
+  border-radius: 14px;
+  background: rgba(7,29,54,.75);
+}
+
+input {
+  border-color: rgba(69,180,255,.3) !important;
+}
+
+footer {
+  border-color: rgba(69,180,255,.2);
+}
+
+@media (max-width: 760px) {
+  .page { padding: 12px; }
+  .hero, .auth-section {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .visual { min-height: 250px; }
+}
+
   <style>
     :root {
       --navy: #081326;
