@@ -1248,6 +1248,137 @@ async function loadPlatformVideos() {
 
   $("logoutButton").addEventListener("click", logout);
 
+  function updateTransferPreview() {
+    const amount = Number($("transferAmount").value);
+    const valid = Number.isSafeInteger(amount) && amount > 0;
+    const fee = valid ? Math.ceil(amount * 0.02) : 0;
+
+    $("transferFee").textContent = String(fee);
+    $("transferTotal").textContent = String(valid ? amount + fee : 0);
+  }
+
+  async function loadTransferHistory() {
+    const container = $("transferHistory");
+    if (!container) return;
+
+    container.textContent = "جارٍ تحميل التحويلات...";
+
+    try {
+      const client = await requireClient();
+      const { data: userData, error: userError } =
+        await client.auth.getUser();
+
+      if (userError) throw userError;
+      if (!userData.user) throw new Error("سجّل الدخول أولًا.");
+
+      const { data, error } = await client
+        .from("point_transfers")
+        .select("id, amount, fee, created_at, sender_id, recipient_id")
+        .or(
+          `sender_id.eq.${userData.user.id},recipient_id.eq.${userData.user.id}`
+        )
+        .order("created_at", { ascending: false })
+        .limit(10);
+
+      if (error) throw error;
+
+      container.replaceChildren();
+
+      if (!data || data.length === 0) {
+        container.textContent = "لا توجد تحويلات حتى الآن.";
+        return;
+      }
+
+      data.forEach(item => {
+        const row = document.createElement("p");
+        const outgoing = item.sender_id === userData.user.id;
+        row.textContent =
+          `${outgoing ? "تحويل صادر" : "تحويل وارد"}: ` +
+          `${item.amount} نقطة، الرسوم ${item.fee}، ` +
+          `${new Date(item.created_at).toLocaleString("ar")}`;
+        container.appendChild(row);
+      });
+    } catch (error) {
+      container.textContent =
+        "تعذر تحميل السجل. تحقق من صلاحيات قراءة جدول التحويلات.";
+      console.error("Transfer history error:", error);
+    }
+  }
+
+  $("transferAmount").addEventListener("input", updateTransferPreview);
+
+  $("transferButton").addEventListener("click", async () => {
+    const recipient = $("transferRecipient").value.trim();
+    const amount = Number($("transferAmount").value);
+    const message = $("transferMessage");
+    const button = $("transferButton");
+
+    message.textContent = "";
+
+    if (!recipient || !/^[0-9a-f-]{36}$/i.test(recipient)) {
+      message.textContent = "أدخل معرّف المستلم UUID بشكل صحيح.";
+      return;
+    }
+
+    if (!Number.isSafeInteger(amount) || amount <= 0) {
+      message.textContent = "أدخل عدد نقاط صحيحًا وأكبر من صفر.";
+      return;
+    }
+
+    const fee = Math.ceil(amount * 0.02);
+    const total = amount + fee;
+
+    if (!Number.isSafeInteger(total)) {
+      message.textContent = "المبلغ كبير جدًا.";
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `سيصل للمستلم ${amount} نقطة.\n` +
+      `رسوم المنصة: ${fee} نقطة.\n` +
+      `إجمالي الخصم: ${total} نقطة.\n\nهل تؤكد التحويل؟`
+    );
+
+    if (!confirmed) return;
+
+    button.disabled = true;
+    message.textContent = "جارٍ تنفيذ التحويل...";
+
+    try {
+      const client = await requireClient();
+      const { data: userData, error: userError } =
+        await client.auth.getUser();
+
+      if (userError) throw userError;
+      if (!userData.user) throw new Error("انتهت الجلسة؛ سجّل الدخول مجددًا.");
+      if (recipient.toLowerCase() === userData.user.id.toLowerCase()) {
+        throw new Error("لا يمكنك التحويل إلى حسابك نفسه.");
+      }
+
+      const requestId = crypto.randomUUID();
+
+      const { error } = await client.rpc("transfer_points", {
+        p_recipient_id: recipient,
+        p_amount: amount,
+        p_request_id: requestId
+      });
+
+      if (error) throw error;
+
+      message.textContent = "تم التحويل بنجاح.";
+      $("transferAmount").value = "";
+      updateTransferPreview();
+
+      await Promise.all([loadWallet(), loadTransferHistory()]);
+    } catch (error) {
+      console.error("Point transfer error:", error);
+      message.textContent =
+        error.message || "تعذر التحويل. تحقق من الرصيد وصلاحيات الحساب.";
+    } finally {
+      button.disabled = false;
+    }
+  });
+
   async function initialize() {
     updateView();
 
