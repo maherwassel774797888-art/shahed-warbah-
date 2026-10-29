@@ -9,7 +9,10 @@
   <meta name="description" content="شاهد واربح، منصتك الترفيهية العربية.">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-/* تحسين الواجهة الرئيسية لشاهد وربة */
+
+  <style>
+   
+/* تحسين الواجهة الرئيسية لشاهد واربح */
 :root {
   --navy: #06152e;
   --panel: #0c2342;
@@ -54,14 +57,17 @@ header {
   box-shadow: 0 0 0 10px rgba(244,197,66,.08);
 }
 
-.info-card, .auth-card, .dashboard-card {
+.info-card,
+.auth-card,
+.dashboard-card {
   border: 1px solid rgba(69,180,255,.28);
   border-radius: 20px;
   background: linear-gradient(145deg, #0d2442, #07172c);
   box-shadow: 0 14px 35px rgba(0,0,0,.16);
 }
 
-.tab.active, .primary {
+.tab.active,
+.primary {
   color: #07162e;
   border-color: transparent;
   background: linear-gradient(110deg, #ffe88b, #f4c542 70%, #f5ad25);
@@ -92,15 +98,21 @@ footer {
 }
 
 @media (max-width: 760px) {
-  .page { padding: 12px; }
-  .hero, .auth-section {
+  .page {
+    padding: 12px;
+  }
+
+  .hero,
+  .auth-section {
     grid-template-columns: 1fr;
     gap: 16px;
   }
-  .visual { min-height: 250px; }
-}
 
-  <style>
+  .visual {
+    min-height: 250px;
+  }
+}
+ 
     :root {
       --navy: #081326;
       --panel: #101f37;
