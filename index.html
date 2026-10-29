@@ -557,6 +557,54 @@ footer {
   }
 }
 
+.transfer-panel {
+  margin-top: 20px;
+  padding: 18px;
+  border: 1px solid #d9e2f0;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #172554;
+}
+
+.transfer-panel h3 {
+  margin-top: 0;
+  color: #174ea6;
+}
+
+.transfer-panel label {
+  display: block;
+  margin-top: 14px;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.transfer-panel input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  font-size: 16px;
+  direction: ltr;
+  text-align: left;
+}
+
+.transfer-panel button {
+  margin-top: 12px;
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  border-radius: 9px;
+  background: #174ea6;
+  color: white;
+  font-weight: 700;
+}
+
+.transfer-panel #transferMessage {
+  overflow-wrap: anywhere;
+}
+
   </style>
 </head>
 
@@ -694,6 +742,44 @@ footer {
         </div>
         <div style="font-size:30px;color:var(--gold)">◈</div>
       </div>
+
+<div class="transfer-panel">
+  <h3>تحويل النقاط</h3>
+  <p>حوّل النقاط إلى مستخدم آخر برسوم 2%.</p>
+
+  <label for="transferRecipient">معرّف حساب المستلم (UUID)</label>
+  <input
+    id="transferRecipient"
+    type="text"
+    placeholder="أدخل معرّف حساب المستلم"
+    autocomplete="off"
+  >
+
+  <label for="transferAmount">عدد النقاط المراد تحويلها</label>
+  <input
+    id="transferAmount"
+    type="number"
+    min="1"
+    step="1"
+    placeholder="مثال: 1000"
+  >
+
+  <p>رسوم التحويل: <strong id="transferFee">0</strong> نقطة</p>
+  <p>إجمالي الخصم: <strong id="transferTotal">0</strong> نقطة</p>
+
+  <button
+    class="secondary"
+    id="transferButton"
+    type="button"
+  >
+    مراجعة التحويل
+  </button>
+
+  <p id="transferMessage" role="status"></p>
+
+  <h4>آخر التحويلات</h4>
+  <div id="transferHistory">سجل التحويلات سيظهر هنا.</div>
+</div>
 
       <div class="message info show">
         تنبيه: الرصيد المعروض هو رصيد النقاط المسجل في قاعدة البيانات.
