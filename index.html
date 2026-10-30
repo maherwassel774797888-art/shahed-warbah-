@@ -1243,7 +1243,7 @@ async function loadPlatformVideos() {
   loadPlatformVideos(),
   loadTransferHistory()
 ]);
-
+await initializeChat();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
