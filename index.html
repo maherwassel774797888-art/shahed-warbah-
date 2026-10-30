@@ -785,7 +785,49 @@ footer {
         تنبيه: الرصيد المعروض هو رصيد النقاط المسجل في قاعدة البيانات.
         المشاهدة لا تمنح نقاطًا تلقائيًا في هذه النسخة، والسحب غير مفعّل بعد.
       </div>
+      <!-- بداية قسم المحادثات -->
+      <section class="transfer-panel" id="chatSection">
+        <h3>💬 المحادثات</h3>
+        <p>تواصل مع المستخدمين في الغرف العامة والخاصة.</p>
 
+        <label for="chatRoomName">إنشاء غرفة عامة جديدة</label>
+        <input id="chatRoomName" type="text"
+          placeholder="اكتب اسم الغرفة">
+
+        <button class="secondary" id="createChatRoom" type="button">
+          إنشاء غرفة عامة
+        </button>
+
+        <h4>الغرف المتاحة</h4>
+        <div id="chatRooms">
+          جارٍ تحميل الغرف...
+        </div>
+
+        <hr>
+
+        <h4 id="activeChatTitle">اختر غرفة لبدء المحادثة</h4>
+        <div id="chatMessages"
+          style="min-height:150px;max-height:300px;overflow-y:auto">
+        </div>
+
+        <label for="chatMessageInput">رسالتك</label>
+        <input id="chatMessageInput" type="text"
+          placeholder="اكتب رسالتك هنا">
+
+        <button class="secondary" id="sendChatMessage" type="button">
+          إرسال الرسالة
+        </button>
+
+        <label for="chatFile">إرفاق صورة أو ملف</label>
+        <input id="chatFile" type="file">
+
+        <button class="secondary" id="sendChatFile" type="button">
+          إرسال المرفق
+        </button>
+
+        <p id="chatStatus" role="status"></p>
+      </section>
+      <!-- نهاية قسم المحادثات -->
       <h3>استكشف المحتوى</h3>
       <div class="video-links">
         <a class="video-link" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">
