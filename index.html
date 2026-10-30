@@ -1424,7 +1424,223 @@ async function loadPlatformVideos() {
       button.disabled = false;
     }
   });
+  // ===== نظام المحادثات =====
+  let activeChatRoomId = null;
+  let chatRealtimeChannel = null;
+  let chatHandlersReady = false;
 
+  async function initializeChat() {
+    const client = await requireClient();
+
+    if (!chatHandlersReady) {
+      chatHandlersReady = true;
+
+      $("createChatRoom").addEventListener("click", createChatRoom);
+      $("sendChatMessage").addEventListener("click", sendChatMessage);
+
+      $("chatMessageInput").addEventListener("keydown", event => {
+        if (event.key === "Enter") sendChatMessage();
+      });
+    }
+
+    await loadChatRooms();
+  }
+
+  async function loadChatRooms() {
+    const container = $("chatRooms");
+    container.textContent = "جارٍ تحميل الغرف...";
+
+    try {
+      const client = await requireClient();
+      const { data, error } = await client
+        .from("chat_rooms")
+        .select("id,title,created_by")
+        .eq("room_type", "public")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+
+      container.replaceChildren();
+
+      if (!data || data.length === 0) {
+        container.textContent = "لا توجد غرف بعد. يمكنك إنشاء أول غرفة.";
+        return;
+      }
+
+      data.forEach(room => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "secondary";
+        button.textContent = room.title || "غرفة عامة";
+        button.style.margin = "5px";
+        button.addEventListener("click", () => joinChatRoom(room));
+        container.appendChild(button);
+      });
+    } catch (error) {
+      container.textContent = "تعذر تحميل الغرف: " + error.message;
+    }
+  }
+
+  async function createChatRoom() {
+    const title = $("chatRoomName").value.trim();
+    const status = $("chatStatus");
+
+    if (!title) {
+      status.textContent = "اكتب اسم الغرفة أولاً.";
+      return;
+    }
+
+    try {
+      const client = await requireClient();
+      const { data: userData, error: userError } =
+        await client.auth.getUser();
+
+      if (userError) throw userError;
+      if (!userData.user) throw new Error("سجّل الدخول أولاً.");
+
+      const { data: room, error } = await client
+        .from("chat_rooms")
+        .insert({
+          room_type: "public",
+          title: title,
+          created_by: userData.user.id
+        })
+        .select("id,title,created_by")
+        .single();
+
+      if (error) throw error;
+
+      await joinChatRoom(room);
+      $("chatRoomName").value = "";
+      status.textContent = "تم إنشاء الغرفة.";
+      await loadChatRooms();
+    } catch (error) {
+      status.textContent = "تعذر إنشاء الغرفة: " + error.message;
+    }
+  }
+
+  async function joinChatRoom(room) {
+    try {
+      const client = await requireClient();
+      const { data: userData, error: userError } =
+        await client.auth.getUser();
+
+      if (userError) throw userError;
+      if (!userData.user) throw new Error("سجّل الدخول أولاً.");
+
+      const { error } = await client
+        .from("chat_room_members")
+        .upsert({
+          room_id: room.id,
+          user_id: userData.user.id
+        }, {
+          onConflict: "room_id,user_id",
+          ignoreDuplicates: true
+        });
+
+      if (error) throw error;
+
+      activeChatRoomId = room.id;
+      $("activeChatTitle").textContent = room.title || "غرفة عامة";
+      await loadChatMessages();
+
+      if (chatRealtimeChannel) {
+        await client.removeChannel(chatRealtimeChannel);
+      }
+
+      chatRealtimeChannel = client
+        .channel("chat-room-" + room.id)
+        .on("postgres_changes", {
+          event: "INSERT",
+          schema: "public",
+          table: "chat_messages",
+          filter: "room_id=eq." + room.id
+        }, () => loadChatMessages())
+        .subscribe();
+
+      $("chatStatus").textContent = "أنت الآن داخل الغرفة.";
+    } catch (error) {
+      $("chatStatus").textContent =
+        "تعذر دخول الغرفة: " + error.message;
+    }
+  }
+
+  async function loadChatMessages() {
+    if (!activeChatRoomId) return;
+
+    const container = $("chatMessages");
+    container.textContent = "جارٍ تحميل الرسائل...";
+
+    try {
+      const client = await requireClient();
+      const { data, error } = await client
+        .from("chat_messages")
+        .select("id,body,sender_id,created_at")
+        .eq("room_id", activeChatRoomId)
+        .order("created_at", { ascending: true })
+        .limit(100);
+
+      if (error) throw error;
+
+      container.replaceChildren();
+
+      if (!data || data.length === 0) {
+        container.textContent = "لا توجد رسائل. ابدأ المحادثة.";
+        return;
+      }
+
+      data.forEach(message => {
+        const item = document.createElement("p");
+        item.textContent =
+          (message.sender_id.slice(0, 8) === " " ? "" :
+          message.sender_id.slice(0, 8) + " : ") + message.body;
+        container.appendChild(item);
+      });
+
+      container.scrollTop = container.scrollHeight;
+    } catch (error) {
+      container.textContent = "تعذر تحميل الرسائل: " + error.message;
+    }
+  }
+
+  async function sendChatMessage() {
+    const input = $("chatMessageInput");
+    const body = input.value.trim();
+
+    if (!activeChatRoomId) {
+      $("chatStatus").textContent = "اختر غرفة أولاً.";
+      return;
+    }
+
+    if (!body) return;
+
+    try {
+      const client = await requireClient();
+      const { data: userData, error: userError } =
+        await client.auth.getUser();
+
+      if (userError) throw userError;
+      if (!userData.user) throw new Error("سجّل الدخول أولاً.");
+
+      const { error } = await client
+        .from("chat_messages")
+        .insert({
+          room_id: activeChatRoomId,
+          sender_id: userData.user.id,
+          body: body
+        });
+
+      if (error) throw error;
+
+      input.value = "";
+      $("chatStatus").textContent = "تم إرسال الرسالة.";
+      await loadChatMessages();
+    } catch (error) {
+      $("chatStatus").textContent =
+        "تعذر إرسال الرسالة: " + error.message;
+    }
+  }
+  // ===== نهاية نظام المحادثات =====
   async function initialize() {
     updateView();
 
